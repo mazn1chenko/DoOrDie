@@ -23,11 +23,13 @@
 		710C22E92A671FB10011ED28 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 710C22DA2A671FB10011ED28 /* SIL Open Font License.txt */; };
 		710C22EA2A671FB10011ED28 /* NunitoSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 710C22DB2A671FB10011ED28 /* NunitoSans-LightItalic.ttf */; };
 		710C22EB2A671FB10011ED28 /* NunitoSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 710C22DC2A671FB10011ED28 /* NunitoSans-SemiBold.ttf */; };
+		712611EB2A6B2F6400EACFF9 /* CustomCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712611EA2A6B2F6400EACFF9 /* CustomCalendar.swift */; };
 		713807732A66D3F1007B03B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713807722A66D3F1007B03B8 /* AppDelegate.swift */; };
 		713807752A66D3F1007B03B8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713807742A66D3F1007B03B8 /* SceneDelegate.swift */; };
 		713807772A66D3F1007B03B8 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713807762A66D3F1007B03B8 /* MainPageViewController.swift */; };
 		7138077C2A66D3F3007B03B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7138077B2A66D3F3007B03B8 /* Assets.xcassets */; };
 		7138077F2A66D3F3007B03B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7138077D2A66D3F3007B03B8 /* LaunchScreen.storyboard */; };
+		719489402A6B221800B88036 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7194893F2A6B221800B88036 /* CalendarViewController.swift */; };
 		71E772532A6959440058068A /* TasksCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E772522A6959440058068A /* TasksCollectionViewCell.swift */; };
 		71E772562A696EFD0058068A /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E772552A696EFD0058068A /* Resources.swift */; };
 		71E772582A698B020058068A /* MeetingsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E772572A698B020058068A /* MeetingsCollectionViewCell.swift */; };
@@ -50,6 +52,7 @@
 		710C22DA2A671FB10011ED28 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "SIL Open Font License.txt"; path = "../../../../../../Desktop/fonts/nunito-sans/SIL Open Font License.txt"; sourceTree = "<group>"; };
 		710C22DB2A671FB10011ED28 /* NunitoSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NunitoSans-LightItalic.ttf"; path = "../../../../../../Desktop/fonts/nunito-sans/NunitoSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		710C22DC2A671FB10011ED28 /* NunitoSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NunitoSans-SemiBold.ttf"; path = "../../../../../../Desktop/fonts/nunito-sans/NunitoSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		712611EA2A6B2F6400EACFF9 /* CustomCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalendar.swift; sourceTree = "<group>"; };
 		7138076F2A66D3F1007B03B8 /* DoOrDie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoOrDie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		713807722A66D3F1007B03B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		713807742A66D3F1007B03B8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +60,7 @@
 		7138077B2A66D3F3007B03B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7138077E2A66D3F3007B03B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		713807802A66D3F3007B03B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7194893F2A6B221800B88036 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		71E772522A6959440058068A /* TasksCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCollectionViewCell.swift; sourceTree = "<group>"; };
 		71E772552A696EFD0058068A /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		71E772572A698B020058068A /* MeetingsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -157,11 +161,29 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		7194893D2A6B21D800B88036 /* AddNewTaskPage */ = {
+			isa = PBXGroup;
+			children = (
+				71E772592A699E650058068A /* AddNewTaskViewController.swift */,
+			);
+			path = AddNewTaskPage;
+			sourceTree = "<group>";
+		};
+		7194893E2A6B21EE00B88036 /* CalendarPage */ = {
+			isa = PBXGroup;
+			children = (
+				7194893F2A6B221800B88036 /* CalendarViewController.swift */,
+				712611EA2A6B2F6400EACFF9 /* CustomCalendar.swift */,
+			);
+			path = CalendarPage;
+			sourceTree = "<group>";
+		};
 		71E772502A6959140058068A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				7194893E2A6B21EE00B88036 /* CalendarPage */,
 				71E772512A69591E0058068A /* MainPage */,
-				71E772592A699E650058068A /* AddNewTaskViewController.swift */,
+				7194893D2A6B21D800B88036 /* AddNewTaskPage */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -322,10 +344,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				719489402A6B221800B88036 /* CalendarViewController.swift in Sources */,
 				713807772A66D3F1007B03B8 /* MainPageViewController.swift in Sources */,
 				71E772532A6959440058068A /* TasksCollectionViewCell.swift in Sources */,
 				713807732A66D3F1007B03B8 /* AppDelegate.swift in Sources */,
 				71E772562A696EFD0058068A /* Resources.swift in Sources */,
+				712611EB2A6B2F6400EACFF9 /* CustomCalendar.swift in Sources */,
 				71E7725A2A699E650058068A /* AddNewTaskViewController.swift in Sources */,
 				71E772582A698B020058068A /* MeetingsCollectionViewCell.swift in Sources */,
 				713807752A66D3F1007B03B8 /* SceneDelegate.swift in Sources */,

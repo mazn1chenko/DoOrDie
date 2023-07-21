@@ -35,6 +35,8 @@ class AddNewTaskViewController: UIViewController{
     let familyCategoriesButton = UIButton(type: .system)
     let calendarButton = UIButton(type: .system)
     let categoriesButton = UIButton(type: .system)
+    let teamButton = UIButton(type: .system)
+    let doneButtonNavigationBar = UIButton(type: .system)
 
     let avatar1UIImageView = UIImageView()
     let avatar2UIImageView = UIImageView()
@@ -48,12 +50,17 @@ class AddNewTaskViewController: UIViewController{
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        settingsNavigationBar()
         setupViews()
         setupConstraints()
     }
     
     private func setupViews() {
         
+        doneButtonNavigationBar.setImage(UIImage(named:"doneButton"), for: .normal)
+        doneButtonNavigationBar.tintColor = Resources.Colors.titleColorOfTextFieldCreateTaskView
+        doneButtonNavigationBar.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
+
         headerOfViewControllerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerOfViewControllerLabel.text = "Create a task"
         headerOfViewControllerLabel.textColor = Resources.Colors.blackFontColor
@@ -142,10 +149,14 @@ class AddNewTaskViewController: UIViewController{
         categoriesButton.backgroundColor = .white
         categoriesButton.tintColor = Resources.Colors.titleColorOfTextFieldCreateTaskView
         categoriesButton.addTarget(self, action: #selector(openCategories), for: .touchUpInside)
-
+        
+        teamButton.translatesAutoresizingMaskIntoConstraints = false
+        teamButton.setImage(UIImage(named: "arrow"), for: .normal)
+        teamButton.backgroundColor = .white
+        teamButton.tintColor = Resources.Colors.titleColorOfTextFieldCreateTaskView
+        teamButton.addTarget(self, action: #selector(openTeam), for: .touchUpInside)
         
         //MARK: - teamStackView (stackViews, imageViews, labels)
-        
         
         teamStackView.translatesAutoresizingMaskIntoConstraints = false
         teamStackView.backgroundColor = .white
@@ -226,6 +237,7 @@ class AddNewTaskViewController: UIViewController{
         view.addSubview(descriptionTextField)
         view.addSubview(calendarButton)
         view.addSubview(categoriesButton)
+        view.addSubview(teamButton)
         buttonsCategoriesStackView.addArrangedSubview(homeworkCaterogiesButton)
         buttonsCategoriesStackView.addArrangedSubview(workCategoriesButton)
         buttonsCategoriesStackView.addArrangedSubview(familyCategoriesButton)
@@ -284,6 +296,11 @@ class AddNewTaskViewController: UIViewController{
             categoriesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides),
             categoriesButton.bottomAnchor.constraint(equalTo: categoriesTextField.bottomAnchor),
             categoriesButton.topAnchor.constraint(equalTo: categoriesLabel.bottomAnchor, constant: 5),
+            
+            teamButton.leadingAnchor.constraint(equalTo: teamTextField.trailingAnchor, constant: 25),
+            teamButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides),
+            teamButton.bottomAnchor.constraint(equalTo: teamTextField.bottomAnchor),
+            teamButton.topAnchor.constraint(equalTo: teamLabel.bottomAnchor, constant: 5),
             
             buttonsCategoriesStackView.topAnchor.constraint(equalTo: categoriesTextField.bottomAnchor, constant: 10),
             buttonsCategoriesStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
@@ -355,6 +372,14 @@ class AddNewTaskViewController: UIViewController{
         
         print("openCategories")
     }
+    @objc func openTeam(){
+        
+        print("openTeam")
+    }
+    @objc func doneButtonAction(){
+        
+        print("doneButtonAction")
+    }
     
     //MARK: - Useful functions
     
@@ -367,6 +392,12 @@ class AddNewTaskViewController: UIViewController{
             .paragraphStyle: paragraphStyle
         ])
         return attributedPlaceholderCategories
+        
+    }
+    
+    private func settingsNavigationBar() {
+        let customBarButtonItem = UIBarButtonItem(customView: doneButtonNavigationBar)
+        navigationItem.rightBarButtonItem = customBarButtonItem
         
     }
     

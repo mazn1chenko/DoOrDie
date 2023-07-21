@@ -6,5 +6,7 @@ target 'DoOrDie' do
   use_frameworks!
 
 pod 'RealmSwift', '~>10'
+pod 'CVCalendar', '~> 1.7.0'
+
 
 end

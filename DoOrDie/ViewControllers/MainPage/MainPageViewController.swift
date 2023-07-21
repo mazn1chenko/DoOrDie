@@ -197,7 +197,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     
     @objc func getAllCalendar() {
         
-        print("AllCalendar")
+        navigationController?.pushViewController(CalendarViewController(), animated: true)
+        
     }
     
     @objc func addNewTaskTarget() {
