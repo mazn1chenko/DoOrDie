@@ -20,6 +20,7 @@ class TasksCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        layer.cornerRadius = 10
         setupViews()
         setupConstraints()
         backgroundColor = Resources.Colors.tasksCollectionCellColor
@@ -86,8 +87,12 @@ class TasksCollectionViewCell: UICollectionViewCell {
             fakeSeparatorView.widthAnchor.constraint(equalToConstant: frame.width - 20)
             
         ])
+    }
+    
+    func configureCell(model: String, count: Int){
         
-        
+        nameOfTasksLabel.text = model
+        countOfTasksLabel.text = "\(count) tasks"
         
     }
     

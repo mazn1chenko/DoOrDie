@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MainPageViewController: UIViewController, UISearchBarDelegate {
     
@@ -39,6 +40,18 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     
     let girlImageView = UIImageView()
     
+    lazy var categoryOfTasksArray: [CategoryModel] = {
+        print(getTasksArrayFromRealm())
+
+            return getTasksArrayFromRealm()
+        }()
+    
+    var uniqueCategoryNames = [String]()
+    
+    var countOfTasksInParticular = 0
+    
+    var categoryInfo: [String: Int] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,6 +60,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         settingsNavigationBar()
         setupViews()
         setupConstraints()
+        categoryOfTasksArray = getTasksArrayFromRealm()
+        filterTasksByCategory()
     }
     
     private func settingsNavigationBar() {
@@ -55,6 +70,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         
     }
     
+    //MARK: - setupViews
     private func setupViews() {
         menuButtonNavigationBar.setImage(UIImage(named:"IconMenu"), for: .normal)
         menuButtonNavigationBar.tintColor = .black
@@ -123,6 +139,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         girlImageView.image = UIImage(named: "girl")
     }
     
+    //MARK: - setupConstraints
     private func setupConstraints() {
         view.addSubview(backgroundView)
         view.addSubview(stackView)
@@ -187,6 +204,45 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
             ])
     }
     
+    //MARK: - Working with Realm and Model
+    
+
+    func getTasksArrayFromRealm() -> [CategoryModel] {
+        do {
+            let realm = try Realm()
+            let tasksResults = realm.objects(CategoryModel.self)
+            let categoryOfTasksArray = Array(tasksResults) // Удалите "lazy" перед объявлением массива
+            return categoryOfTasksArray
+        } catch {
+            print("Error fetching tasks: \(error.localizedDescription)")
+            return []
+        }
+    }
+
+    func filterTasksByCategory() {
+        categoryInfo.removeAll() // Очищаем словарь перед обновлением данных
+        
+        // Перебираем все категории в массиве categoryOfTasksArray
+        for category in categoryOfTasksArray {
+            let categoryName = category.nameOfCategory
+            // Проверяем, есть ли такая категория уже в словаре, и если есть, увеличиваем счетчик на 1
+            if let count = categoryInfo[categoryName] {
+                categoryInfo[categoryName] = count + 1
+            } else {
+                // Если категории еще нет в словаре, добавляем ее со значением 1
+                categoryInfo[categoryName] = 1
+            }
+        }
+        
+        // Обновляем данные в коллекции после подсчета
+        DispatchQueue.main.async {
+            self.tasksCollectionView.reloadData()
+        }
+        print(categoryInfo)
+    }
+    
+    
+    
     //MARK: - @objc functions actually for addTarget
     
     @objc func menuButtonAction(){
@@ -207,6 +263,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     }
 }
 
+
+    //MARK: - UISearchBarDelegate
 extension UISearchBar: UISearchBarDelegate {
     
     func applyCommonStyle(){
@@ -233,12 +291,25 @@ extension UISearchBar: UISearchBarDelegate {
     
 }
 
-//tasksCollectionView
+//MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+
+
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == tasksCollectionView {
-            return 8
+            if categoryOfTasksArray.count != 0 {
+                
+                let uniqueCategories = Set(categoryOfTasksArray.map { $0.nameOfCategory })
+                
+                uniqueCategoryNames = Array(uniqueCategories)
+
+                let numberOfUniqueCategories = uniqueCategories.count
+                
+                return numberOfUniqueCategories
+                
+            } else { return 0 }
+            
         } else if collectionView == meetingsCollectionView {
             return 5
         }
@@ -248,7 +319,12 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == tasksCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TasksCollectionViewCell.cellID, for: indexPath) as! TasksCollectionViewCell
-            cell.layer.cornerRadius = 10
+            
+            let categoryName = uniqueCategoryNames[indexPath.row]
+            let countOfElements = categoryInfo[categoryName] ?? 0
+            
+            cell.configureCell(model: uniqueCategoryNames[indexPath.row], count: countOfElements)
+            
             return cell
         } else if collectionView == meetingsCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MeetingsCollectionViewCell.cellID, for: indexPath) as! MeetingsCollectionViewCell
@@ -274,5 +350,12 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
             return 10
         }
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = ParticularTasksOfCategoryViewController()
+        let current = categoryOfTasksArray[indexPath.row]
+        vc.title = current.nameOfCategory
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

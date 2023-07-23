@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class AddNewTaskViewController: UIViewController{
     
@@ -24,12 +25,12 @@ class AddNewTaskViewController: UIViewController{
     let categoriesTextField = UITextField()
     let teamTextField = UITextField()
     let descriptionTextField = UITextField()
-
+    
     let buttonsCategoriesStackView = UIStackView()
     let teamStackView = UIStackView()
     let iconsTeamStackView = UIStackView()
     let nameOfTeamStackView = UIStackView()
-
+    
     let homeworkCaterogiesButton = UIButton(type: .system)
     let workCategoriesButton = UIButton(type: .system)
     let familyCategoriesButton = UIButton(type: .system)
@@ -37,14 +38,12 @@ class AddNewTaskViewController: UIViewController{
     let categoriesButton = UIButton(type: .system)
     let teamButton = UIButton(type: .system)
     let doneButtonNavigationBar = UIButton(type: .system)
-
+    
     let avatar1UIImageView = UIImageView()
     let avatar2UIImageView = UIImageView()
     let avatar3UIImageView = UIImageView()
     
-    
-
-    
+    let tapGesture = UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,56 +55,33 @@ class AddNewTaskViewController: UIViewController{
     }
     
     private func setupViews() {
+
+        titleLabel.settingsLabel("Title")
+        
+        dateLabel.settingsLabel("Date")
+        
+        categoriesLabel.settingsLabel("Categories")
+        
+        teamLabel.settingsLabel("Team")
+        
         
         doneButtonNavigationBar.setImage(UIImage(named:"doneButton"), for: .normal)
         doneButtonNavigationBar.tintColor = Resources.Colors.titleColorOfTextFieldCreateTaskView
         doneButtonNavigationBar.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
-
+        
         headerOfViewControllerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerOfViewControllerLabel.text = "Create a task"
         headerOfViewControllerLabel.textColor = Resources.Colors.blackFontColor
         headerOfViewControllerLabel.font = UIFont(name: "NunitoSans-Bold", size: 22)
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = Resources.Colors.blueFont
-        titleLabel.font = UIFont(name: "NunitoSans-Bold", size: 15)
-        titleLabel.text = "Title"
         
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.textColor = Resources.Colors.blueFont
-        dateLabel.font = UIFont(name: "NunitoSans-Bold", size: 15)
-        dateLabel.text = "Date"
+        titleTextField.settingsTextField(text: "Webpage delivery", placeholderText: Resources.Colors.titleColorOfTextFieldCreateTaskView)
         
-        categoriesLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoriesLabel.textColor = Resources.Colors.blueFont
-        categoriesLabel.font = UIFont(name: "NunitoSans-Bold", size: 15)
-        categoriesLabel.text = "Categories"
+        dateTextField.settingsTextField(text: "July 23rd - August 05th", placeholderText: Resources.Colors.titleColorOfTextFieldCreateTaskView)
         
-        teamLabel.translatesAutoresizingMaskIntoConstraints = false
-        teamLabel.textColor = Resources.Colors.blueFont
-        teamLabel.font = UIFont(name: "NunitoSans-Bold", size: 15)
-        teamLabel.text = "Team"
-
+        categoriesTextField.settingsTextField(text: "Choose as much as you want", placeholderText: .lightGray)
         
-        titleTextField.translatesAutoresizingMaskIntoConstraints = false
-        titleTextField.backgroundColor = Resources.Colors.backgroundOfTextFieldCreateTaskView
-        titleTextField.tintColor = .orange
-        titleTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "Webpage delivery", placeholderText: Resources.Colors.titleColorOfTextFieldCreateTaskView)
-        
-        dateTextField.translatesAutoresizingMaskIntoConstraints = false
-        dateTextField.backgroundColor = Resources.Colors.backgroundOfTextFieldCreateTaskView
-        dateTextField.tintColor = .orange
-        dateTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "July 23rd - August 05th", placeholderText: Resources.Colors.titleColorOfTextFieldCreateTaskView)
-        
-        categoriesTextField.translatesAutoresizingMaskIntoConstraints = false
-        categoriesTextField.backgroundColor = Resources.Colors.backgroundOfTextFieldCreateTaskView
-        categoriesTextField.tintColor = .orange
-        categoriesTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "Choose as much as you want", placeholderText: .lightGray)
-        
-        teamTextField.translatesAutoresizingMaskIntoConstraints = false
-        teamTextField.backgroundColor = Resources.Colors.backgroundOfTextFieldCreateTaskView
-        teamTextField.tintColor = .orange
-        teamTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "Who`s working  on this task?", placeholderText: .lightGray)
+        teamTextField.settingsTextField(text: "Who`s working  on this task?", placeholderText: .lightGray)
         
         
         //MARK: - buttonsCategoriesStackView (stackView, buttons)
@@ -137,7 +113,7 @@ class AddNewTaskViewController: UIViewController{
         familyCategoriesButton.tag = 3
         familyCategoriesButton.backgroundColor = Resources.Colors.buttonsCategories.familycolor
         familyCategoriesButton.addTarget(self, action: #selector(tappedOnButton(action:)), for: .touchUpInside)
-             
+        
         calendarButton.translatesAutoresizingMaskIntoConstraints = false
         calendarButton.setImage(UIImage(named: "calendar"), for: .normal)
         calendarButton.backgroundColor = .white
@@ -174,14 +150,14 @@ class AddNewTaskViewController: UIViewController{
         nameOfTeamStackView.backgroundColor = .white
         nameOfTeamStackView.distribution = .fillEqually
         nameOfTeamStackView.spacing = 10
-
+        
         
         avatar1UIImageView.translatesAutoresizingMaskIntoConstraints = false
         avatar1UIImageView.image = UIImage(named: "avatar")
-
+        
         avatar2UIImageView.translatesAutoresizingMaskIntoConstraints = false
         avatar2UIImageView.image = UIImage(named: "avatar")
-
+        
         avatar3UIImageView.translatesAutoresizingMaskIntoConstraints = false
         avatar3UIImageView.image = UIImage(named: "avatar")
         
@@ -205,17 +181,12 @@ class AddNewTaskViewController: UIViewController{
         name3Label.text = "Brian"
         
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.textColor = Resources.Colors.blueFont
-        descriptionLabel.font = UIFont(name: "NunitoSans-Bold", size: 15)
-        descriptionLabel.text = "Description"
+        descriptionLabel.settingsLabel("Description")
         
-        descriptionTextField.translatesAutoresizingMaskIntoConstraints = false
-        descriptionTextField.backgroundColor = Resources.Colors.backgroundOfTextFieldCreateTaskView
-        descriptionTextField.tintColor = .orange
-        descriptionTextField.textAlignment = .left
-        descriptionTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "Write a short description", placeholderText: .lightGray)
-        descriptionTextField.contentMode = .topLeft
-
+        descriptionTextField.settingsTextField(text: "Write a short description", placeholderText: .lightGray)
+        
+        tapGesture.addTarget(self, action: #selector(hideKeyboard))
+        
         
     }
     
@@ -238,6 +209,7 @@ class AddNewTaskViewController: UIViewController{
         view.addSubview(calendarButton)
         view.addSubview(categoriesButton)
         view.addSubview(teamButton)
+        view.addGestureRecognizer(tapGesture)
         buttonsCategoriesStackView.addArrangedSubview(homeworkCaterogiesButton)
         buttonsCategoriesStackView.addArrangedSubview(workCategoriesButton)
         buttonsCategoriesStackView.addArrangedSubview(familyCategoriesButton)
@@ -281,7 +253,7 @@ class AddNewTaskViewController: UIViewController{
             calendarButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides),
             calendarButton.bottomAnchor.constraint(equalTo: dateTextField.bottomAnchor),
             calendarButton.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 5),
-    
+            
             categoriesLabel.topAnchor.constraint(equalTo: dateTextField.bottomAnchor, constant: 20),
             categoriesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
             categoriesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides),
@@ -306,7 +278,7 @@ class AddNewTaskViewController: UIViewController{
             buttonsCategoriesStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
             buttonsCategoriesStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides*4.5),
             buttonsCategoriesStackView.heightAnchor.constraint(equalToConstant: 30),
-
+            
             
             teamLabel.topAnchor.constraint(equalTo: buttonsCategoriesStackView.bottomAnchor, constant: 20),
             teamLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
@@ -355,11 +327,11 @@ class AddNewTaskViewController: UIViewController{
         
         switch buttonTag {
         case 1:
-            categoriesTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "Homework", placeholderText: .lightGray)
+            categoriesTextField.settingsTextField(text: "Homework", placeholderText: .lightGray)
         case 2:
-            categoriesTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "Work", placeholderText: .lightGray)
+            categoriesTextField.settingsTextField(text: "Work", placeholderText: .lightGray)
         case 3:
-            categoriesTextField.attributedText = addAttributesForTextFieldPlaceholder(string: "Family", placeholderText: .lightGray)
+            categoriesTextField.settingsTextField(text: "Another", placeholderText: .lightGray)
         default:
             break
         }
@@ -378,20 +350,42 @@ class AddNewTaskViewController: UIViewController{
     }
     @objc func doneButtonAction(){
         
-        print("doneButtonAction")
+        let title = titleTextField.text ?? "NoTitle"
+        let date = dateTextField.text ?? "NoDate"
+        let category = categoriesTextField.text ?? "NoDate"
+        let team = teamTextField.text ?? "NoDate"
+        let description = descriptionTextField.text ?? "NoDate"
+        
+        addTaskToRealm(title: title, date: date, category: category, team: team, description: description)
+        
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
     
     //MARK: - Useful functions
     
-    func addAttributesForTextFieldPlaceholder(string: String, placeholderText: UIColor) -> NSAttributedString{
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = 10
-
-        let attributedPlaceholderCategories = NSAttributedString(string: string, attributes: [
-            .foregroundColor: placeholderText,
-            .paragraphStyle: paragraphStyle
-        ])
-        return attributedPlaceholderCategories
+    func addTaskToRealm(title: String, date: String, category: String, team: String, description: String) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let newTask = TaskModel()
+                newTask.title = title
+                newTask.date = date
+                newTask.categories = category
+                newTask.team = team
+                newTask.descriptionTask = description
+                
+                let newTasksInCategory = CategoryModel()
+                newTasksInCategory.nameOfCategory = category
+                
+                realm.add([newTask, newTasksInCategory])
+                
+            }
+        } catch {
+            print("Error adding task: \(error.localizedDescription)")
+        }
         
     }
     
@@ -403,24 +397,58 @@ class AddNewTaskViewController: UIViewController{
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        // Настройка кнопки в круглую форму и тени
+        
         calendarButton.layer.cornerRadius = calendarButton.frame.height / 2
         calendarButton.clipsToBounds = true
-        calendarButton.layer.shadowColor = UIColor.black.cgColor // Цвет тени
-        calendarButton.layer.shadowOffset = CGSize(width: 0, height: 2) // Смещение тени (горизонтально, вертикально)
-        calendarButton.layer.shadowOpacity = 1 // Прозрачность тени (от 0 до 1)
-        calendarButton.layer.shadowRadius = 4 // Радиус размытия тени
+        calendarButton.layer.shadowColor = UIColor.black.cgColor
+        calendarButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        calendarButton.layer.shadowOpacity = 1
+        calendarButton.layer.shadowRadius = 4
     }
-
 }
 
+//MARK: - UITextField / UITextFieldDelegate
 
 
+extension UITextField: UITextFieldDelegate {
+    
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
 
-
-
-
+        textField.text = ""
+        
+    }
 
     
+    func settingsTextField(text: String, placeholderText: UIColor) {
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.textColor = .black
+        self.delegate = self
+        self.backgroundColor = Resources.Colors.backgroundOfTextFieldCreateTaskView
+        
+        let padding: CGFloat = 10
+        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.height))
+        self.leftView = leftPaddingView
+        self.leftViewMode = .always
+        
+        
+        let attributedPlaceholderCategories = NSAttributedString(string: text, attributes: [
+            .foregroundColor: placeholderText,
+        ])
+        self.attributedText = attributedPlaceholderCategories
+        
 
+    }
+}
+
+extension UILabel {
+    
+    func settingsLabel(_ text: String) {
+        self.textColor = Resources.Colors.blueFont
+        self.font = UIFont(name: "NunitoSans-Bold", size: 15)
+        self.textAlignment = .left
+        self.text = text
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+}
