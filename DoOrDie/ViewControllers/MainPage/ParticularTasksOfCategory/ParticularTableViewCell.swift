@@ -11,7 +11,9 @@ class ParticularTableViewCell: UITableViewCell {
     
     static let reuseID = "ParticularTableCell"
     
-    let label = UILabel()
+    let titleOfTask = UILabel()
+    let categoryOfTask = UILabel()
+    let desciptionOfTask = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,25 +30,38 @@ class ParticularTableViewCell: UITableViewCell {
     
     private func setupViews() {
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "LOL"
-        label.textColor = .black
+        titleOfTask.translatesAutoresizingMaskIntoConstraints = false
+        titleOfTask.text = "NoTitle"
+        titleOfTask.textColor = .black
+        
+        categoryOfTask.translatesAutoresizingMaskIntoConstraints = false
+        categoryOfTask.text = "NoCategory"
+        categoryOfTask.textColor = .black
+        
+        desciptionOfTask.translatesAutoresizingMaskIntoConstraints = false
+        desciptionOfTask.text = "NoDescription"
+        desciptionOfTask.textColor = .black
         
     }
     
     private func setupConstraints() {
-        addSubview(label)
+        addSubview(titleOfTask)
+        addSubview(desciptionOfTask)
         
         NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.centerXAnchor.constraint(equalTo: centerXAnchor)
+            titleOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            titleOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
+            
+            desciptionOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            desciptionOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 20)
         ])
         
     }
     
     func configureCell(model: TaskModel){
         
-        label.text = model.title
+        desciptionOfTask.text = model.descriptionTask
+        titleOfTask.text = model.title
     }
     
 }

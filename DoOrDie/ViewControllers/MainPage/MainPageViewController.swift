@@ -8,7 +8,9 @@
 import UIKit
 import RealmSwift
 
-class MainPageViewController: UIViewController, UISearchBarDelegate {
+class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskDelegate {
+
+    
     
     let menuButtonNavigationBar = UIButton(type: .system)
     let stackView = UIStackView()
@@ -261,6 +263,10 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         
         navigationController?.pushViewController(AddNewTaskViewController(), animated: true)
     }
+    
+    func didTapButton() {
+        tasksCollectionView.reloadData()
+    }
 }
 
 
@@ -354,8 +360,9 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = ParticularTasksOfCategoryViewController()
-        let current = categoryOfTasksArray[indexPath.row]
-        vc.title = current.nameOfCategory
+        let current = uniqueCategoryNames[indexPath.row]
+        vc.title = current
         navigationController?.pushViewController(vc, animated: true)
     }
 }
+

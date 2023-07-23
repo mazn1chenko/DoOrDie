@@ -18,9 +18,9 @@ enum Categories {
 class TaskModel: Object {
 
     @objc dynamic var title = ""
-    @objc var date = ""
-    @objc var categories = ""
-    @objc var team = ""
-    @objc var descriptionTask = ""
+    @objc dynamic var date = ""
+    @objc dynamic var categories = ""
+    @objc dynamic var team = ""
+    @objc dynamic var descriptionTask = ""
 
 }

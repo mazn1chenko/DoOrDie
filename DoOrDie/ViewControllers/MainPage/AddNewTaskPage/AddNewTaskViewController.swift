@@ -10,6 +10,8 @@ import RealmSwift
 
 class AddNewTaskViewController: UIViewController{
     
+    weak var delegate: AddNewTaskDelegate?
+    
     let headerOfViewControllerLabel = UILabel()
     let titleLabel = UILabel()
     let dateLabel = UILabel()
@@ -358,6 +360,10 @@ class AddNewTaskViewController: UIViewController{
         
         addTaskToRealm(title: title, date: date, category: category, team: team, description: description)
         
+        delegate?.didTapButton()
+        navigationController?.pushViewController(MainPageViewController(), animated: true)
+        
+        
     }
     
     @objc func hideKeyboard() {
@@ -450,5 +456,11 @@ extension UILabel {
         self.text = text
         self.translatesAutoresizingMaskIntoConstraints = false
         
+        
     }
+}
+//MARK: - Protocol didTapButton
+
+protocol AddNewTaskDelegate: AnyObject {
+    func didTapButton()
 }
