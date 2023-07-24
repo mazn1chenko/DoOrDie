@@ -13,7 +13,7 @@ class ParticularTableViewCell: UITableViewCell {
     
     let titleOfTask = UILabel()
     let categoryOfTask = UILabel()
-    let desciptionOfTask = UILabel()
+    let descriptionOfTask = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,36 +32,44 @@ class ParticularTableViewCell: UITableViewCell {
         
         titleOfTask.translatesAutoresizingMaskIntoConstraints = false
         titleOfTask.text = "NoTitle"
+        titleOfTask.font = UIFont(name: "NunitoSans-Bold", size: 16)
         titleOfTask.textColor = .black
         
         categoryOfTask.translatesAutoresizingMaskIntoConstraints = false
         categoryOfTask.text = "NoCategory"
         categoryOfTask.textColor = .black
         
-        desciptionOfTask.translatesAutoresizingMaskIntoConstraints = false
-        desciptionOfTask.text = "NoDescription"
-        desciptionOfTask.textColor = .black
+        descriptionOfTask.translatesAutoresizingMaskIntoConstraints = false
+        descriptionOfTask.text = "NoDescription"
+        descriptionOfTask.textColor = .black
+        descriptionOfTask.font = UIFont(name: "NunitoSans-Light", size: 16)
+        descriptionOfTask.numberOfLines = 3
+        
         
     }
     
     private func setupConstraints() {
         addSubview(titleOfTask)
-        addSubview(desciptionOfTask)
+        addSubview(descriptionOfTask)
         
         NSLayoutConstraint.activate([
             titleOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            titleOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
+            titleOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20),
+            titleOfTask.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25),
             
-            desciptionOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            desciptionOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 20)
+            descriptionOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            descriptionOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 20),
+            descriptionOfTask.widthAnchor.constraint(equalToConstant: frame.width / 2)
         ])
         
     }
     
     func configureCell(model: TaskModel){
         
-        desciptionOfTask.text = model.descriptionTask
-        titleOfTask.text = model.title
+        descriptionOfTask.text = model.descriptionTask
+        titleOfTask.text = "\(model.title)  (\(model.date))"
     }
     
 }
+
+

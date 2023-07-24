@@ -10,8 +10,6 @@ import RealmSwift
 
 class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskDelegate {
 
-    
-    
     let menuButtonNavigationBar = UIButton(type: .system)
     let stackView = UIStackView()
     let nameUserLabel = UILabel()
@@ -19,10 +17,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
     let searchBar = UISearchBar()
     let seeCalendarButton = UIButton(type: .system)
     let addNewTask = UIButton(type: .system)
-    let meetingsHeaderLabel = UILabel()
-    let backgroundView = UIView()
-    
-    private let tasksCollectionView: UICollectionView = {
+    let tasksCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
@@ -31,7 +26,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
         return collectionView
     }()
     
-    private let meetingsCollectionView: UICollectionView = {
+    let meetingsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
@@ -40,36 +35,33 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
         return collectionView
     }()
     
+    let meetingsHeaderLabel = UILabel()
+    let backgroundView = UIView()
     let girlImageView = UIImageView()
     
-    lazy var categoryOfTasksArray: [CategoryModel] = {
-        print(getTasksArrayFromRealm())
-
-            return getTasksArrayFromRealm()
-        }()
+    var categoryOfTasksArray: [CategoryModel] = [] {
+        didSet {
+            updateCategoryInfo()
+        }
+    }
     
     var uniqueCategoryNames = [String]()
-    
-    var countOfTasksInParticular = 0
-    
     var categoryInfo: [String: Int] = [:]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
         
-        settingsNavigationBar()
+        setupNavigationBar()
         setupViews()
         setupConstraints()
         categoryOfTasksArray = getTasksArrayFromRealm()
-        filterTasksByCategory()
     }
     
-    private func settingsNavigationBar() {
+    private func setupNavigationBar() {
         let customBarButtonItem = UIBarButtonItem(customView: menuButtonNavigationBar)
         navigationItem.leftBarButtonItem = customBarButtonItem
-        
     }
     
     //MARK: - setupViews
@@ -221,26 +213,20 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
         }
     }
 
-    func filterTasksByCategory() {
-        categoryInfo.removeAll() // Очищаем словарь перед обновлением данных
+    private func updateCategoryInfo() {
+        categoryInfo.removeAll()
         
-        // Перебираем все категории в массиве categoryOfTasksArray
         for category in categoryOfTasksArray {
             let categoryName = category.nameOfCategory
-            // Проверяем, есть ли такая категория уже в словаре, и если есть, увеличиваем счетчик на 1
+            
             if let count = categoryInfo[categoryName] {
                 categoryInfo[categoryName] = count + 1
             } else {
-                // Если категории еще нет в словаре, добавляем ее со значением 1
                 categoryInfo[categoryName] = 1
             }
         }
         
-        // Обновляем данные в коллекции после подсчета
-        DispatchQueue.main.async {
-            self.tasksCollectionView.reloadData()
-        }
-        print(categoryInfo)
+        tasksCollectionView.reloadData()
     }
     
     
@@ -303,6 +289,9 @@ extension UISearchBar: UISearchBarDelegate {
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("uniqueCategoryNames \(uniqueCategoryNames.count)")
+        print("categoryOfTasksArray \(categoryOfTasksArray.count)")
+        print("categoryInfo\(categoryInfo)")
         if collectionView == tasksCollectionView {
             if categoryOfTasksArray.count != 0 {
                 
@@ -364,5 +353,39 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         vc.title = current
         navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+extension MainPageViewController: BackButtonDelegate {
+    func didTapBackButton() {
+        tasksCollectionView.reloadData()
+    }
+
+    // Функция перехода на страницу с задачами определенной категории
+    func navigateToParticularTasks(for category: String) {
+        let particularTasksVC = ParticularTasksOfCategoryViewController()
+        particularTasksVC.delegate = self // Установите делегата здесь
+        particularTasksVC.title = category
+        navigationController?.pushViewController(particularTasksVC, animated: true)
+    }
+}
+
+extension MainPageViewController: ParticularTasksDelegate {
+    func didDeleteTask() {
+        // Обновите данные после удаления задачи из ParticularTasksOfCategoryViewController
+        // Удалите "lazy" перед объявлением массива
+        categoryOfTasksArray = getTasksArrayFromRealm()
+        updateCategoryInfo()
+    }
+}
+
+
+
+
+
+
+
+    //MARK: - Protocol BackButtonDelegate
+protocol BackButtonDelegate: AnyObject {
+    func didTapBackButton()
 }
 

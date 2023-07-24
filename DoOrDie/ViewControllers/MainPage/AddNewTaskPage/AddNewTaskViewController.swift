@@ -47,6 +47,8 @@ class AddNewTaskViewController: UIViewController{
     
     let tapGesture = UITapGestureRecognizer()
     
+    let datePicker = UIDatePicker()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,6 +56,7 @@ class AddNewTaskViewController: UIViewController{
         settingsNavigationBar()
         setupViews()
         setupConstraints()
+        setupDatePicker()
     }
     
     private func setupViews() {
@@ -189,7 +192,8 @@ class AddNewTaskViewController: UIViewController{
         
         tapGesture.addTarget(self, action: #selector(hideKeyboard))
         
-        
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+
     }
     
     private func setupConstraints() {
@@ -370,6 +374,14 @@ class AddNewTaskViewController: UIViewController{
         view.endEditing(true)
     }
     
+    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+        // Обновите текст в текстовом поле при изменении значения датапикера
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        dateTextField.text = dateFormatter.string(from: sender.date)
+    }
+    
     //MARK: - Useful functions
     
     func addTaskToRealm(title: String, date: String, category: String, team: String, description: String) {
@@ -401,6 +413,14 @@ class AddNewTaskViewController: UIViewController{
         
     }
     
+    func setupDatePicker() {
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.sizeToFit() // This line will make the date picker adjust its size to fit its content, i.e., show it in full height.
+        dateTextField.inputView = datePicker
+    }
+    
+    //MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

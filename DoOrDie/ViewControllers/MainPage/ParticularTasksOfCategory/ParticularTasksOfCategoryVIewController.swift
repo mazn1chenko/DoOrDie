@@ -10,6 +10,10 @@ import RealmSwift
 
 class ParticularTasksOfCategoryViewController: UIViewController {
     
+    weak var delegate: ParticularTasksDelegate?
+
+    weak var backButtonDelegate: BackButtonDelegate?
+    
     let tasksTableView = UITableView()
     
     lazy var tasksArray: [TaskModel] = {
@@ -78,7 +82,40 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         tasksTableView.reloadData()
         
     }
+    
+    // Метод для обработки свайпа по ячейке для удаления
+    func handleSwipeToDelete(at indexPath: IndexPath) {
+        let taskToDelete = filteredArray[indexPath.row]
+        
+        // Удалите задачу из Realm
+        deleteTaskFromRealm(taskToDelete)
+        
+        // Удалите задачу из массива filteredArray
+        filteredArray.remove(at: indexPath.row)
+        
+        // Удалите ячейку из таблицы
+        tasksTableView.deleteRows(at: [indexPath], with: .fade)
+    }
+        
+        // Добавьте этот метод для удаления задачи из Realm (или другого хранилища данных)
+    func deleteTaskFromRealm(_ task: TaskModel) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(task)
+            }
+            delegate?.didDeleteTask() // Без аргументов
+            backButtonDelegate?.didTapBackButton() // Без аргументов
+        } catch {
+            print("Error deleting task: \(error.localizedDescription)")
+        }
+    }
 
+
+    @objc func backBarButtonTapped() {
+        backButtonDelegate?.didTapBackButton()
+        navigationController?.popViewController(animated: true)
+    }
     
 }
 
@@ -87,6 +124,12 @@ extension ParticularTasksOfCategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.frame.height / 10
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            handleSwipeToDelete(at: indexPath)
+        }
     }
     
 }
@@ -109,7 +152,10 @@ extension ParticularTasksOfCategoryViewController: UITableViewDataSource {
         return cell
         
     }
-    
-    
-    
 }
+
+protocol ParticularTasksDelegate: AnyObject {
+    func didDeleteTask()
+}
+
+
