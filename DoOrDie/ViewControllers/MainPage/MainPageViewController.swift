@@ -8,8 +8,8 @@
 import UIKit
 import RealmSwift
 
-class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskDelegate {
-
+class MainPageViewController: UIViewController, UISearchBarDelegate {
+    
     let menuButtonNavigationBar = UIButton(type: .system)
     let stackView = UIStackView()
     let nameUserLabel = UILabel()
@@ -39,15 +39,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
     let backgroundView = UIView()
     let girlImageView = UIImageView()
     
-    var categoryOfTasksArray: [CategoryModel] = [] {
-        didSet {
-            updateCategoryInfo()
-        }
-    }
+    var categoriesInfo = [String : Int]()
     
-    var uniqueCategoryNames = [String]()
-    var categoryInfo: [String: Int] = [:]
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,7 +49,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
         setupNavigationBar()
         setupViews()
         setupConstraints()
-        categoryOfTasksArray = getTasksArrayFromRealm()
+        categoriesInfo = getTasksArrayFromRealm()
     }
     
     private func setupNavigationBar() {
@@ -198,37 +191,44 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
             ])
     }
     
-    //MARK: - Working with Realm and Model
-    
-
-    func getTasksArrayFromRealm() -> [CategoryModel] {
-        do {
-            let realm = try Realm()
-            let tasksResults = realm.objects(CategoryModel.self)
-            let categoryOfTasksArray = Array(tasksResults) // Удалите "lazy" перед объявлением массива
-            return categoryOfTasksArray
-        } catch {
-            print("Error fetching tasks: \(error.localizedDescription)")
-            return []
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reloadDataOnMainVC()
     }
-
-    private func updateCategoryInfo() {
-        categoryInfo.removeAll()
-        
-        for category in categoryOfTasksArray {
-            let categoryName = category.nameOfCategory
-            
-            if let count = categoryInfo[categoryName] {
-                categoryInfo[categoryName] = count + 1
-            } else {
-                categoryInfo[categoryName] = 1
-            }
-        }
-        
+    
+    func reloadDataOnMainVC() {
+        categoriesInfo = getTasksArrayFromRealm()
         tasksCollectionView.reloadData()
     }
     
+    //MARK: - Working with Realm and Model
+
+    func getTasksArrayFromRealm() -> [String : Int] {
+        do {
+            let realm = try Realm()
+            let tasksResults = realm.objects(TaskModel.self) // Получаем все таски из базы данных
+            
+            // Создаем словарь для хранения информации о категориях и количестве элементов
+            var categoryInfo: [String: Int] = [:]
+            
+            // Заполняем словарь, подсчитывая количество элементов для каждой категории
+            for task in tasksResults {
+                let categoryName = task.categories
+                if let count = categoryInfo[categoryName] {
+                    categoryInfo[categoryName] = count + 1
+                } else {
+                    categoryInfo[categoryName] = 1
+                }
+            }
+            
+            // Возвращаем полученный словарь
+            return categoryInfo
+        } catch {
+            print("Error fetching tasks: \(error.localizedDescription)")
+            return [:]
+        }
+    }
     
     
     //MARK: - @objc functions actually for addTarget
@@ -250,11 +250,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate, AddNewTaskD
         navigationController?.pushViewController(AddNewTaskViewController(), animated: true)
     }
     
-    func didTapButton() {
-        tasksCollectionView.reloadData()
-    }
 }
-
 
     //MARK: - UISearchBarDelegate
 extension UISearchBar: UISearchBarDelegate {
@@ -289,19 +285,11 @@ extension UISearchBar: UISearchBarDelegate {
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("uniqueCategoryNames \(uniqueCategoryNames.count)")
-        print("categoryOfTasksArray \(categoryOfTasksArray.count)")
-        print("categoryInfo\(categoryInfo)")
+        
         if collectionView == tasksCollectionView {
-            if categoryOfTasksArray.count != 0 {
+            if categoriesInfo.count != 0 {
                 
-                let uniqueCategories = Set(categoryOfTasksArray.map { $0.nameOfCategory })
-                
-                uniqueCategoryNames = Array(uniqueCategories)
-
-                let numberOfUniqueCategories = uniqueCategories.count
-                
-                return numberOfUniqueCategories
+                return categoriesInfo.keys.count
                 
             } else { return 0 }
             
@@ -315,11 +303,11 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == tasksCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TasksCollectionViewCell.cellID, for: indexPath) as! TasksCollectionViewCell
             
-            let categoryName = uniqueCategoryNames[indexPath.row]
-            let countOfElements = categoryInfo[categoryName] ?? 0
+            let categoryName = Array(categoriesInfo.keys)[indexPath.row]
+            let countOfElements = categoriesInfo[categoryName] ?? 0
             
-            cell.configureCell(model: uniqueCategoryNames[indexPath.row], count: countOfElements)
-            
+            cell.configureCell(model: categoryName, count: countOfElements)
+
             return cell
         } else if collectionView == meetingsCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MeetingsCollectionViewCell.cellID, for: indexPath) as! MeetingsCollectionViewCell
@@ -349,43 +337,8 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = ParticularTasksOfCategoryViewController()
-        let current = uniqueCategoryNames[indexPath.row]
+        let current = Array(categoriesInfo.keys)[indexPath.row]
         vc.title = current
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-
-extension MainPageViewController: BackButtonDelegate {
-    func didTapBackButton() {
-        tasksCollectionView.reloadData()
-    }
-
-    // Функция перехода на страницу с задачами определенной категории
-    func navigateToParticularTasks(for category: String) {
-        let particularTasksVC = ParticularTasksOfCategoryViewController()
-        particularTasksVC.delegate = self // Установите делегата здесь
-        particularTasksVC.title = category
-        navigationController?.pushViewController(particularTasksVC, animated: true)
-    }
-}
-
-extension MainPageViewController: ParticularTasksDelegate {
-    func didDeleteTask() {
-        // Обновите данные после удаления задачи из ParticularTasksOfCategoryViewController
-        // Удалите "lazy" перед объявлением массива
-        categoryOfTasksArray = getTasksArrayFromRealm()
-        updateCategoryInfo()
-    }
-}
-
-
-
-
-
-
-
-    //MARK: - Protocol BackButtonDelegate
-protocol BackButtonDelegate: AnyObject {
-    func didTapBackButton()
-}
-

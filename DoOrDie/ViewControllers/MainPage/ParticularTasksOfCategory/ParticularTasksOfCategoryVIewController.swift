@@ -9,11 +9,7 @@ import UIKit
 import RealmSwift
 
 class ParticularTasksOfCategoryViewController: UIViewController {
-    
-    weak var delegate: ParticularTasksDelegate?
-
-    weak var backButtonDelegate: BackButtonDelegate?
-    
+        
     let tasksTableView = UITableView()
     
     lazy var tasksArray: [TaskModel] = {
@@ -86,6 +82,7 @@ class ParticularTasksOfCategoryViewController: UIViewController {
     // Метод для обработки свайпа по ячейке для удаления
     func handleSwipeToDelete(at indexPath: IndexPath) {
         let taskToDelete = filteredArray[indexPath.row]
+
         
         // Удалите задачу из Realm
         deleteTaskFromRealm(taskToDelete)
@@ -95,6 +92,7 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         
         // Удалите ячейку из таблицы
         tasksTableView.deleteRows(at: [indexPath], with: .fade)
+        
     }
         
         // Добавьте этот метод для удаления задачи из Realm (или другого хранилища данных)
@@ -104,8 +102,7 @@ class ParticularTasksOfCategoryViewController: UIViewController {
             try realm.write {
                 realm.delete(task)
             }
-            delegate?.didDeleteTask() // Без аргументов
-            backButtonDelegate?.didTapBackButton() // Без аргументов
+
         } catch {
             print("Error deleting task: \(error.localizedDescription)")
         }
@@ -113,7 +110,7 @@ class ParticularTasksOfCategoryViewController: UIViewController {
 
 
     @objc func backBarButtonTapped() {
-        backButtonDelegate?.didTapBackButton()
+
         navigationController?.popViewController(animated: true)
     }
     
@@ -153,9 +150,4 @@ extension ParticularTasksOfCategoryViewController: UITableViewDataSource {
         
     }
 }
-
-protocol ParticularTasksDelegate: AnyObject {
-    func didDeleteTask()
-}
-
 

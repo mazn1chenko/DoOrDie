@@ -9,9 +9,7 @@ import UIKit
 import RealmSwift
 
 class AddNewTaskViewController: UIViewController{
-    
-    weak var delegate: AddNewTaskDelegate?
-    
+        
     let headerOfViewControllerLabel = UILabel()
     let titleLabel = UILabel()
     let dateLabel = UILabel()
@@ -112,7 +110,7 @@ class AddNewTaskViewController: UIViewController{
         workCategoriesButton.addTarget(self, action: #selector(tappedOnButton(action:)), for: .touchUpInside)
         
         familyCategoriesButton.translatesAutoresizingMaskIntoConstraints = false
-        familyCategoriesButton.setTitle("Family", for: .normal)
+        familyCategoriesButton.setTitle("Another", for: .normal)
         familyCategoriesButton.tintColor = .white
         familyCategoriesButton.layer.cornerRadius = 10
         familyCategoriesButton.tag = 3
@@ -364,7 +362,6 @@ class AddNewTaskViewController: UIViewController{
         
         addTaskToRealm(title: title, date: date, category: category, team: team, description: description)
         
-        delegate?.didTapButton()
         navigationController?.pushViewController(MainPageViewController(), animated: true)
         
         
@@ -395,10 +392,7 @@ class AddNewTaskViewController: UIViewController{
                 newTask.team = team
                 newTask.descriptionTask = description
                 
-                let newTasksInCategory = CategoryModel()
-                newTasksInCategory.nameOfCategory = category
-                
-                realm.add([newTask, newTasksInCategory])
+                realm.add(newTask)
                 
             }
         } catch {
@@ -416,7 +410,7 @@ class AddNewTaskViewController: UIViewController{
     func setupDatePicker() {
         datePicker.datePickerMode = .dateAndTime
         datePicker.preferredDatePickerStyle = .wheels
-        datePicker.sizeToFit() // This line will make the date picker adjust its size to fit its content, i.e., show it in full height.
+        datePicker.sizeToFit()
         dateTextField.inputView = datePicker
     }
     
@@ -434,7 +428,6 @@ class AddNewTaskViewController: UIViewController{
 }
 
 //MARK: - UITextField / UITextFieldDelegate
-
 
 extension UITextField: UITextFieldDelegate {
     
@@ -479,8 +472,4 @@ extension UILabel {
         
     }
 }
-//MARK: - Protocol didTapButton
 
-protocol AddNewTaskDelegate: AnyObject {
-    func didTapButton()
-}
