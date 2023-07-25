@@ -13,6 +13,7 @@ class TasksCollectionViewCell: UICollectionViewCell {
     
     let nameOfTasksLabel = UILabel()
     let countOfTasksLabel = UILabel()
+    
     let square1View = UIView()
     let square2View = UIView()
     let fakeSeparatorView = UIView()

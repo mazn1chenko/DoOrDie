@@ -15,6 +15,9 @@ class ParticularTableViewCell: UITableViewCell {
     let categoryOfTask = UILabel()
     let descriptionOfTask = UILabel()
     
+    let doneTaskButton = UIButton(type: .system)
+    let editTaskButton = UIButton(type: .system)
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -32,18 +35,22 @@ class ParticularTableViewCell: UITableViewCell {
         
         titleOfTask.translatesAutoresizingMaskIntoConstraints = false
         titleOfTask.text = "NoTitle"
-        titleOfTask.font = UIFont(name: "NunitoSans-Bold", size: 16)
-        titleOfTask.textColor = .black
-        
-        categoryOfTask.translatesAutoresizingMaskIntoConstraints = false
-        categoryOfTask.text = "NoCategory"
-        categoryOfTask.textColor = .black
+        titleOfTask.font = UIFont(name: "NunitoSans-Bold", size: 18)
+        titleOfTask.textColor = Resources.Colors.blackFontColor
         
         descriptionOfTask.translatesAutoresizingMaskIntoConstraints = false
         descriptionOfTask.text = "NoDescription"
-        descriptionOfTask.textColor = .black
-        descriptionOfTask.font = UIFont(name: "NunitoSans-Light", size: 16)
+        descriptionOfTask.textColor = Resources.Colors.blackFontColor
+        descriptionOfTask.font = UIFont(name: "NunitoSans-Light", size: 18)
         descriptionOfTask.numberOfLines = 3
+        
+        doneTaskButton.translatesAutoresizingMaskIntoConstraints = false
+        doneTaskButton.setImage(UIImage(named: "done"), for: .normal)
+        doneTaskButton.tintColor = Resources.Colors.blackFontColor
+        
+        editTaskButton.translatesAutoresizingMaskIntoConstraints = false
+        editTaskButton.setImage(UIImage(named: "editButton"), for: .normal)
+        editTaskButton.tintColor = Resources.Colors.blackFontColor
         
         
     }
@@ -51,6 +58,8 @@ class ParticularTableViewCell: UITableViewCell {
     private func setupConstraints() {
         addSubview(titleOfTask)
         addSubview(descriptionOfTask)
+        addSubview(doneTaskButton)
+        addSubview(editTaskButton)
         
         NSLayoutConstraint.activate([
             titleOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
@@ -59,7 +68,16 @@ class ParticularTableViewCell: UITableViewCell {
             
             descriptionOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             descriptionOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 20),
-            descriptionOfTask.widthAnchor.constraint(equalToConstant: frame.width / 2)
+            descriptionOfTask.widthAnchor.constraint(equalToConstant: frame.width / 2),
+            
+            doneTaskButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            doneTaskButton.topAnchor.constraint(equalTo: titleOfTask.topAnchor, constant: 5),
+            doneTaskButton.bottomAnchor.constraint(equalTo: titleOfTask.bottomAnchor, constant: -5),
+            
+            editTaskButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            editTaskButton.topAnchor.constraint(equalTo: descriptionOfTask.topAnchor, constant: 5),
+            editTaskButton.bottomAnchor.constraint(equalTo: descriptionOfTask.bottomAnchor, constant: -5),
+            
         ])
         
     }

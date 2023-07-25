@@ -14,14 +14,15 @@ class MeetingsCollectionViewCell: UICollectionViewCell {
     
     let nameOfMeetingsLabel = UILabel()
     let descriptionOfMeetingsLabel = UILabel()
+    
     let photoOfPeopleMeetingsImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        backgroundColor = .white
         setupViews()
         setupConstraints()
-        backgroundColor = .white
         
     }
     

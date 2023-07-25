@@ -139,9 +139,8 @@ class AddNewTaskViewController: UIViewController{
         
         teamStackView.translatesAutoresizingMaskIntoConstraints = false
         teamStackView.backgroundColor = .white
-        teamStackView.distribution = .fillEqually
+        teamStackView.distribution = .fill
         teamStackView.axis = .vertical
-        teamStackView.spacing = 10
         teamStackView.alignment = .center
         
         iconsTeamStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -251,7 +250,7 @@ class AddNewTaskViewController: UIViewController{
             dateTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
             dateTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides * 4),
             dateTextField.heightAnchor.constraint(equalToConstant: 44),
-            dateTextField.widthAnchor.constraint(equalToConstant: view.frame.width - constraintOfSides*2),
+            //dateTextField.widthAnchor.constraint(equalToConstant: view.frame.width - constraintOfSides*2),
             
             calendarButton.leadingAnchor.constraint(equalTo: dateTextField.trailingAnchor, constant: 25),
             calendarButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides),
@@ -266,7 +265,7 @@ class AddNewTaskViewController: UIViewController{
             categoriesTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
             categoriesTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides * 4),
             categoriesTextField.heightAnchor.constraint(equalToConstant: 44),
-            categoriesTextField.widthAnchor.constraint(equalToConstant: view.frame.width - constraintOfSides*2),
+            //categoriesTextField.widthAnchor.constraint(equalToConstant: view.frame.width - constraintOfSides*2),
             
             categoriesButton.leadingAnchor.constraint(equalTo: categoriesTextField.trailingAnchor, constant: 25),
             categoriesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides),
@@ -292,22 +291,22 @@ class AddNewTaskViewController: UIViewController{
             teamTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
             teamTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides * 4),
             teamTextField.heightAnchor.constraint(equalToConstant: 44),
-            teamTextField.widthAnchor.constraint(equalToConstant: view.frame.width - constraintOfSides*2),
+            //teamTextField.widthAnchor.constraint(equalToConstant: view.frame.width - constraintOfSides*2),
             
             teamStackView.topAnchor.constraint(equalTo: teamTextField.bottomAnchor, constant: 10),
             teamStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
             teamStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides*7.5),
             teamStackView.heightAnchor.constraint(equalToConstant: 80),
             
-            iconsTeamStackView.topAnchor.constraint(equalTo: teamStackView.topAnchor, constant: 10),
-            iconsTeamStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
-            iconsTeamStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides*7.5),
-            iconsTeamStackView.heightAnchor.constraint(equalToConstant: 50),
+            iconsTeamStackView.topAnchor.constraint(equalTo: teamStackView.topAnchor),
+            iconsTeamStackView.leadingAnchor.constraint(equalTo: teamStackView.leadingAnchor),
+            iconsTeamStackView.trailingAnchor.constraint(equalTo: teamStackView.trailingAnchor),
+            iconsTeamStackView.heightAnchor.constraint(equalToConstant: 40),
             
-            nameOfTeamStackView.topAnchor.constraint(equalTo: iconsTeamStackView.bottomAnchor, constant: 10),
-            nameOfTeamStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
-            nameOfTeamStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -constraintOfSides*7.5),
-            nameOfTeamStackView.heightAnchor.constraint(equalToConstant: 30),
+            nameOfTeamStackView.topAnchor.constraint(equalTo: iconsTeamStackView.bottomAnchor),
+            nameOfTeamStackView.leadingAnchor.constraint(equalTo: teamStackView.leadingAnchor),
+            nameOfTeamStackView.trailingAnchor.constraint(equalTo: teamStackView.trailingAnchor),
+            nameOfTeamStackView.heightAnchor.constraint(equalToConstant: 40),
             
             descriptionLabel.topAnchor.constraint(equalTo: teamStackView.bottomAnchor, constant: 20),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: constraintOfSides),
@@ -391,6 +390,7 @@ class AddNewTaskViewController: UIViewController{
                 newTask.categories = category
                 newTask.team = team
                 newTask.descriptionTask = description
+                //newTask.isDone = false
                 
                 realm.add(newTask)
                 

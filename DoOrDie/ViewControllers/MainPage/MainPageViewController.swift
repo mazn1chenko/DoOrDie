@@ -10,13 +10,18 @@ import RealmSwift
 
 class MainPageViewController: UIViewController, UISearchBarDelegate {
     
-    let menuButtonNavigationBar = UIButton(type: .system)
-    let stackView = UIStackView()
     let nameUserLabel = UILabel()
     let descriptionLabel = UILabel()
-    let searchBar = UISearchBar()
+    let meetingsHeaderLabel = UILabel()
+    
+    let menuButtonNavigationBar = UIButton(type: .system)
     let seeCalendarButton = UIButton(type: .system)
     let addNewTask = UIButton(type: .system)
+
+    let stackView = UIStackView()
+    
+    let searchBar = UISearchBar()
+    
     let tasksCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -35,8 +40,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         return collectionView
     }()
     
-    let meetingsHeaderLabel = UILabel()
     let backgroundView = UIView()
+    
     let girlImageView = UIImageView()
     
     var categoriesInfo = [String : Int]()
@@ -144,17 +149,17 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: sideConstantLeadingTrailing),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -(view.frame.height / 1.45)),
             
-            nameUserLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: sideConstantLeadingTrailing),
+            nameUserLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             
-            descriptionLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: sideConstantLeadingTrailing),
+            descriptionLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
 
-            searchBar.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 8),
-            searchBar.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: sideConstantLeadingTrailing),
+            searchBar.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sideConstantLeadingTrailing),
+            searchBar.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: 44),
             
             seeCalendarButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 30),
