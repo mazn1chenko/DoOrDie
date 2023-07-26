@@ -55,7 +55,7 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         
     }
     
-    func getTasksArrayFromRealm() -> [TaskModel] {
+    private func getTasksArrayFromRealm() -> [TaskModel] {
         do {
             let realm = try Realm()
             let tasksResults = realm.objects(TaskModel.self)
@@ -66,12 +66,14 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         }
     }
     
-    func filteringArray() {
+    private func filteringArray() {
         
         if tasksArray.count != 0 {
             for i in tasksArray {
                 if i.categories == title{
-                    filteredArray.append(i)
+                    if i.isDone != true {
+                        filteredArray.append(i)
+                    }
                 }
             }
         }
@@ -79,24 +81,23 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         
     }
     
-    // Метод для обработки свайпа по ячейке для удаления
-    func handleSwipeToDelete(at indexPath: IndexPath) {
+    private func handleSwipeToDelete(at indexPath: IndexPath) {
         let taskToDelete = filteredArray[indexPath.row]
 
         
-        // Удалите задачу из Realm
+        addTaskToRealm(title: taskToDelete.title, date: taskToDelete.date, category: taskToDelete.categories, team: taskToDelete.team, description: taskToDelete.descriptionTask)
+
         deleteTaskFromRealm(taskToDelete)
         
-        // Удалите задачу из массива filteredArray
         filteredArray.remove(at: indexPath.row)
         
-        // Удалите ячейку из таблицы
         tasksTableView.deleteRows(at: [indexPath], with: .fade)
+        
+        
         
     }
         
-        // Добавьте этот метод для удаления задачи из Realm (или другого хранилища данных)
-    func deleteTaskFromRealm(_ task: TaskModel) {
+    private func deleteTaskFromRealm(_ task: TaskModel) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -106,6 +107,27 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         } catch {
             print("Error deleting task: \(error.localizedDescription)")
         }
+    }
+    
+    private func addTaskToRealm(title: String, date: String, category: String, team: String, description: String) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let newTask = TaskModel()
+                newTask.title = title
+                newTask.date = date
+                newTask.categories = category
+                newTask.team = team
+                newTask.descriptionTask = description
+                newTask.isDone = true
+                
+                realm.add(newTask)
+                
+            }
+        } catch {
+            print("Error adding task: \(error.localizedDescription)")
+        }
+        
     }
 
 

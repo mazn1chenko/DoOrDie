@@ -10,6 +10,9 @@ import RealmSwift
 
 class MainPageViewController: UIViewController, UISearchBarDelegate {
     
+    var menuView: MenuOnMainPageView?
+    var isMenuVisible = false
+    
     let nameUserLabel = UILabel()
     let descriptionLabel = UILabel()
     let meetingsHeaderLabel = UILabel()
@@ -52,6 +55,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         view.backgroundColor = .white
         
         setupNavigationBar()
+        setupMenu()
         setupViews()
         setupConstraints()
         categoriesInfo = getTasksArrayFromRealm()
@@ -62,8 +66,19 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         navigationItem.leftBarButtonItem = customBarButtonItem
     }
     
+    private func setupMenu(){
+        
+        menuView = MenuOnMainPageView()
+        menuView?.translatesAutoresizingMaskIntoConstraints = false
+        menuView?.frame.origin.x = -menuView!.frame.width
+        menuView?.navigationController = navigationController // Установите ссылку на navigationController
+        menuView?.closeMenuButton.addTarget(self, action: #selector(closeMenu), for: .touchUpInside)
+        
+    }
+    
     //MARK: - setupViews
     private func setupViews() {
+
         menuButtonNavigationBar.setImage(UIImage(named:"IconMenu"), for: .normal)
         menuButtonNavigationBar.tintColor = .black
         menuButtonNavigationBar.addTarget(self, action: #selector(menuButtonAction), for: .touchUpInside)
@@ -144,6 +159,11 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         stackView.addArrangedSubview(nameUserLabel)
         stackView.addArrangedSubview(descriptionLabel)
         stackView.addArrangedSubview(searchBar)
+        if let menuView = menuView {
+            view.addSubview(menuView)
+            menuView.isHidden = true
+        }
+
         
         let sideConstantLeadingTrailing : CGFloat = 30
         
@@ -192,7 +212,13 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
             girlImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -44),
             girlImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 5),
             girlImageView.heightAnchor.constraint(equalToConstant: view.frame.height / 8),
-            girlImageView.widthAnchor.constraint(equalToConstant: view.frame.width / 4.5)
+            girlImageView.widthAnchor.constraint(equalToConstant: view.frame.width / 4.5),
+            
+            menuView!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -44),
+            menuView!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            menuView!.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width / 2)),
+            menuView!.bottomAnchor.constraint(equalTo: tasksCollectionView.bottomAnchor, constant: -5)
+            
             ])
     }
     
@@ -235,12 +261,39 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
+    func animateMenu() {
+        if let menuView = menuView {
+            UIView.animate(withDuration: 0.3) {
+                if self.isMenuVisible {
+                    menuView.frame.origin.x = -menuView.frame.width
+
+                } else {
+                    menuView.frame.origin.x = 0
+
+                }
+            }
+        }
+    }
+    
     
     //MARK: - @objc functions actually for addTarget
     
+    @objc func closeMenu() {
+        
+        print("work???")
+        //menuButtonNavigationBar.isHidden = false
+        menuView?.isHidden = true
+        isMenuVisible = !isMenuVisible
+        animateMenu()
+
+    }
+    
     @objc func menuButtonAction(){
         
-        print("MenuButton")
+        //menuButtonNavigationBar.isHidden = true
+        menuView?.isHidden = false
+        isMenuVisible = !isMenuVisible
+        animateMenu()
         
     }
     

@@ -22,6 +22,6 @@ class TaskModel: Object {
     @objc dynamic var categories = ""
     @objc dynamic var team = ""
     @objc dynamic var descriptionTask = ""
-    //@objc dynamic var isDone = false
+    @objc dynamic var isDone = false
 
 }

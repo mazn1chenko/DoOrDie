@@ -390,7 +390,7 @@ class AddNewTaskViewController: UIViewController{
                 newTask.categories = category
                 newTask.team = team
                 newTask.descriptionTask = description
-                //newTask.isDone = false
+                newTask.isDone = false
                 
                 realm.add(newTask)
                 

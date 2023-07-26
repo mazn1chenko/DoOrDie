@@ -30,6 +30,10 @@
 		7138077C2A66D3F3007B03B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7138077B2A66D3F3007B03B8 /* Assets.xcassets */; };
 		7138077F2A66D3F3007B03B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7138077D2A66D3F3007B03B8 /* LaunchScreen.storyboard */; };
 		719489402A6B221800B88036 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7194893F2A6B221800B88036 /* CalendarViewController.swift */; };
+		71A6FDCE2A7123190085C5AE /* CustomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A6FDCD2A7123190085C5AE /* CustomMenuView.swift */; };
+		71A6FDD02A7128FA0085C5AE /* CellForMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A6FDCF2A7128FA0085C5AE /* CellForMenuTableView.swift */; };
+		71A6FDD42A714F4F0085C5AE /* BasketPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A6FDD32A714F4E0085C5AE /* BasketPageViewController.swift */; };
+		71A6FDD62A7153F20085C5AE /* DeletedTasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A6FDD52A7153F20085C5AE /* DeletedTasksCell.swift */; };
 		71B7ACE32A6D430F00AB2588 /* ParticularTasksOfCategoryVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B7ACE22A6D430F00AB2588 /* ParticularTasksOfCategoryVIewController.swift */; };
 		71B7ACE62A6D441500AB2588 /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B7ACE52A6D441500AB2588 /* TaskModel.swift */; };
 		71B7ACE92A6D4A2B00AB2588 /* ParticularTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B7ACE82A6D4A2B00AB2588 /* ParticularTableViewCell.swift */; };
@@ -64,6 +68,10 @@
 		7138077E2A66D3F3007B03B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		713807802A66D3F3007B03B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7194893F2A6B221800B88036 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		71A6FDCD2A7123190085C5AE /* CustomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuView.swift; sourceTree = "<group>"; };
+		71A6FDCF2A7128FA0085C5AE /* CellForMenuTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForMenuTableView.swift; sourceTree = "<group>"; };
+		71A6FDD32A714F4E0085C5AE /* BasketPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketPageViewController.swift; sourceTree = "<group>"; };
+		71A6FDD52A7153F20085C5AE /* DeletedTasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedTasksCell.swift; sourceTree = "<group>"; };
 		71B7ACE22A6D430F00AB2588 /* ParticularTasksOfCategoryVIewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticularTasksOfCategoryVIewController.swift; sourceTree = "<group>"; };
 		71B7ACE52A6D441500AB2588 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		71B7ACE82A6D4A2B00AB2588 /* ParticularTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticularTableViewCell.swift; sourceTree = "<group>"; };
@@ -185,6 +193,25 @@
 			path = CalendarPage;
 			sourceTree = "<group>";
 		};
+		71A6FDD12A7140850085C5AE /* MenuForMainMage */ = {
+			isa = PBXGroup;
+			children = (
+				71A6FDCD2A7123190085C5AE /* CustomMenuView.swift */,
+				71A6FDCF2A7128FA0085C5AE /* CellForMenuTableView.swift */,
+				71A6FDD22A714F370085C5AE /* BasketPageViewController */,
+			);
+			path = MenuForMainMage;
+			sourceTree = "<group>";
+		};
+		71A6FDD22A714F370085C5AE /* BasketPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				71A6FDD32A714F4E0085C5AE /* BasketPageViewController.swift */,
+				71A6FDD52A7153F20085C5AE /* DeletedTasksCell.swift */,
+			);
+			path = BasketPageViewController;
+			sourceTree = "<group>";
+		};
 		71B7ACE42A6D43FE00AB2588 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +243,7 @@
 				713807762A66D3F1007B03B8 /* MainPageViewController.swift */,
 				71E772522A6959440058068A /* TasksCollectionViewCell.swift */,
 				71E772572A698B020058068A /* MeetingsCollectionViewCell.swift */,
+				71A6FDD12A7140850085C5AE /* MenuForMainMage */,
 				7194893E2A6B21EE00B88036 /* CalendarPage */,
 				7194893D2A6B21D800B88036 /* AddNewTaskPage */,
 				71B7ACE72A6D49FB00AB2588 /* ParticularTasksOfCategory */,
@@ -369,17 +397,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71A6FDD02A7128FA0085C5AE /* CellForMenuTableView.swift in Sources */,
 				719489402A6B221800B88036 /* CalendarViewController.swift in Sources */,
 				713807772A66D3F1007B03B8 /* MainPageViewController.swift in Sources */,
 				71E772532A6959440058068A /* TasksCollectionViewCell.swift in Sources */,
 				71B7ACE32A6D430F00AB2588 /* ParticularTasksOfCategoryVIewController.swift in Sources */,
 				71B7ACE62A6D441500AB2588 /* TaskModel.swift in Sources */,
+				71A6FDCE2A7123190085C5AE /* CustomMenuView.swift in Sources */,
+				71A6FDD42A714F4F0085C5AE /* BasketPageViewController.swift in Sources */,
 				713807732A66D3F1007B03B8 /* AppDelegate.swift in Sources */,
 				71E772562A696EFD0058068A /* Resources.swift in Sources */,
 				712611EB2A6B2F6400EACFF9 /* CustomCalendar.swift in Sources */,
 				71E7725A2A699E650058068A /* AddNewTaskViewController.swift in Sources */,
 				71E772582A698B020058068A /* MeetingsCollectionViewCell.swift in Sources */,
 				71B7ACE92A6D4A2B00AB2588 /* ParticularTableViewCell.swift in Sources */,
+				71A6FDD62A7153F20085C5AE /* DeletedTasksCell.swift in Sources */,
 				713807752A66D3F1007B03B8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
