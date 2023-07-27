@@ -59,6 +59,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         setupViews()
         setupConstraints()
         categoriesInfo = getTasksArrayFromRealm()
+
     }
     
     private func setupNavigationBar() {
@@ -70,9 +71,12 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         
         menuView = MenuOnMainPageView()
         menuView?.translatesAutoresizingMaskIntoConstraints = false
-        menuView?.frame.origin.x = -menuView!.frame.width
-        menuView?.navigationController = navigationController // Установите ссылку на navigationController
+//        menuView?.frame.origin.x = -menuView!.frame.width
+        //menuView?.navigationController = navigationController // Установите ссылку на navigationController
+        menuView?.closeMenuButton.translatesAutoresizingMaskIntoConstraints = false
+        menuView?.closeMenuButton.setImage(UIImage(named: "closeButton"), for: .normal)
         menuView?.closeMenuButton.addTarget(self, action: #selector(closeMenu), for: .touchUpInside)
+
         
     }
     
@@ -160,8 +164,9 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         stackView.addArrangedSubview(descriptionLabel)
         stackView.addArrangedSubview(searchBar)
         if let menuView = menuView {
+            
             view.addSubview(menuView)
-            menuView.isHidden = true
+            menuView.addSubview(menuView.closeMenuButton)
         }
 
         
@@ -214,19 +219,51 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
             girlImageView.heightAnchor.constraint(equalToConstant: view.frame.height / 8),
             girlImageView.widthAnchor.constraint(equalToConstant: view.frame.width / 4.5),
             
+
+            
+            ])
+    }
+    
+    func hiddenMenu() {
+        
+        print("func hiddenMenu")
+        NSLayoutConstraint.activate([
+            menuView!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -44),
+            menuView!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: -(view.frame.width / 2)),            menuView!.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width / 2)),
+            menuView!.bottomAnchor.constraint(equalTo: tasksCollectionView.bottomAnchor, constant: -5)
+])
+    }
+    func activeMenu() {
+        
+        if let closeButton = menuView?.closeMenuButton {
+            view.bringSubviewToFront(closeButton)
+        }
+        
+        print("func activeMenu")
+
+        menuButtonNavigationBar.isHidden = true
+        
+        NSLayoutConstraint.activate([
             menuView!.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -44),
             menuView!.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             menuView!.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.frame.width / 2)),
-            menuView!.bottomAnchor.constraint(equalTo: tasksCollectionView.bottomAnchor, constant: -5)
+            menuView!.bottomAnchor.constraint(equalTo: tasksCollectionView.bottomAnchor, constant: -5),
             
-            ])
+            menuView!.closeMenuButton.topAnchor.constraint(equalTo: menuView!.topAnchor, constant: 5),
+            menuView!.closeMenuButton.trailingAnchor.constraint(equalTo: menuView!.trailingAnchor, constant: -5),
+            menuView!.closeMenuButton.heightAnchor.constraint(equalToConstant: 25),
+            menuView!.closeMenuButton.widthAnchor.constraint(equalToConstant: 25)
+
+])
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        reloadDataOnMainVC()
+        
+            reloadDataOnMainVC()
     }
+    
     
     func reloadDataOnMainVC() {
         categoriesInfo = getTasksArrayFromRealm()
@@ -261,40 +298,37 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
-    func animateMenu() {
-        if let menuView = menuView {
-            UIView.animate(withDuration: 0.3) {
-                if self.isMenuVisible {
-                    menuView.frame.origin.x = -menuView.frame.width
-
-                } else {
-                    menuView.frame.origin.x = 0
-
-                }
-            }
-        }
-    }
+//    func animateMenu() {
+//        if let menuView = menuView {
+//            UIView.animate(withDuration: 0.3) {
+//                if self.isMenuVisible {
+//                    menuView.frame.origin.x = -menuView.frame.width
+//                } else {
+//                    menuView.frame.origin.x = 0
+//
+//                }
+//            }
+//        }
+//    }
     
     
     //MARK: - @objc functions actually for addTarget
     
     @objc func closeMenu() {
         
+        hiddenMenu()
         print("work???")
         //menuButtonNavigationBar.isHidden = false
-        menuView?.isHidden = true
-        isMenuVisible = !isMenuVisible
-        animateMenu()
+//        isMenuVisible = false
+//        animateMenu()
 
     }
     
-    @objc func menuButtonAction(){
-        
+    @objc func menuButtonAction() {
         //menuButtonNavigationBar.isHidden = true
-        menuView?.isHidden = false
-        isMenuVisible = !isMenuVisible
-        animateMenu()
-        
+        activeMenu()
+//        isMenuVisible = !isMenuVisible
+//        animateMenu()
     }
     
     @objc func getAllCalendar() {

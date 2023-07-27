@@ -13,7 +13,7 @@ class MenuOnMainPageView: UIView{
     
     weak var navigationController: UINavigationController?
     
-    let closeMenuButton = UIButton(type: .system)
+    var closeMenuButton = UIButton(type: .system)
     
     var cellOfTable = ["Basket", "Account"]
     
