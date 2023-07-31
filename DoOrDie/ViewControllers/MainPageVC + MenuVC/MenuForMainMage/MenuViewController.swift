@@ -7,71 +7,55 @@
 
 import UIKit
 
-class MenuOnMainPageView: UIView{
+class MenuViewController: UIViewController{
     
     let menuTableView = UITableView()
-    
-    weak var navigationController: UINavigationController?
     
     var closeMenuButton = UIButton(type: .system)
     
     var cellOfTable = ["Basket", "Account"]
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        view.backgroundColor = .white
         
-        backgroundColor = .white
-        layer.cornerRadius = 10
-        layer.masksToBounds = true
-
         setupViews()
         setupConstraints()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
     
     
     private func setupViews() {
-
+        
         menuTableView.translatesAutoresizingMaskIntoConstraints = false
         menuTableView.delegate = self
         menuTableView.dataSource = self
-        menuTableView.layer.cornerRadius = 10
         menuTableView.backgroundColor = Resources.Colors.mettingsCollectionViewBackgroundColor
         menuTableView.register(CellForMenuTableView.self, forCellReuseIdentifier: CellForMenuTableView.reuseID)
-        
-        closeMenuButton.translatesAutoresizingMaskIntoConstraints = false
-        closeMenuButton.setImage(UIImage(named: "closeButton"), for: .normal)
         
     }
     
     private func setupConstraints() {
-        addSubview(menuTableView)
-        addSubview(closeMenuButton)
+        view.addSubview(menuTableView)
+        view.addSubview(closeMenuButton)
+        
         
         NSLayoutConstraint.activate([
-            menuTableView.topAnchor.constraint(equalTo: topAnchor),
-            menuTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            menuTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            menuTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            closeMenuButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            closeMenuButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            closeMenuButton.heightAnchor.constraint(equalToConstant: 25),
-            closeMenuButton.widthAnchor.constraint(equalToConstant: 25)
-            
+            menuTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            menuTableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            menuTableView.widthAnchor.constraint(equalToConstant: view.frame.width - 100),
+            menuTableView.heightAnchor.constraint(equalToConstant: view.frame.height)
             
         ])
         
     }
     
+    
 }
 
+
 //MARK: - UITableViewDataSource
-extension MenuOnMainPageView: UITableViewDataSource {
+extension MenuViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellOfTable.count
     }
@@ -87,7 +71,7 @@ extension MenuOnMainPageView: UITableViewDataSource {
 }
 
 //MARK: - UITableViewDelegate
-extension MenuOnMainPageView: UITableViewDelegate {
+extension MenuViewController: UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
