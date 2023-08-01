@@ -7,14 +7,40 @@
 
 import UIKit
 
+protocol MenuViewControllerDelegate: AnyObject {
+    
+    func didSelect(menuItem: MenuViewController.MenuOptions)
+    
+}
+
 class MenuViewController: UIViewController{
+    
+    weak var delegate: MenuViewControllerDelegate?
+    
+    enum MenuOptions: String, CaseIterable {
+        
+        case mainPage  = "DoOrDie"
+        case basket = "Basket"
+        case account = "Account"
+        
+        var image: String {
+            
+            switch self {
+            case .mainPage:
+                return "DoOrDie"
+            case .basket:
+                return "basket"
+            case .account:
+                return "account"
+            }
+        }
+        
+    }
     
     let menuTableView = UITableView()
     
     var closeMenuButton = UIButton(type: .system)
-    
-    var cellOfTable = ["Basket", "Account"]
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,12 +83,12 @@ class MenuViewController: UIViewController{
 //MARK: - UITableViewDataSource
 extension MenuViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellOfTable.count
+        return MenuOptions.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellForMenuTableView.reuseID, for: indexPath) as! CellForMenuTableView
-        cell.configureCell(model: cellOfTable[indexPath.row])
+        cell.configureCell(title: MenuOptions.allCases[indexPath.row].rawValue, image: MenuOptions.allCases[indexPath.row].image)
         return cell
     }
     
@@ -75,18 +101,9 @@ extension MenuViewController: UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
-        switch indexPath.row {
-        case 0:
-                let vc = BasketPageViewController()
-                navigationController?.pushViewController(vc, animated: true)
-        case 1:
-                let vc = BasketPageViewController()
-                navigationController?.pushViewController(vc, animated: true)
-        default:
-            print("1")
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = MenuOptions.allCases[indexPath.row]
+        delegate?.didSelect(menuItem: item)
     }
     
 }

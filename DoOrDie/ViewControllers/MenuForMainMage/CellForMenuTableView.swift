@@ -13,6 +13,8 @@ class CellForMenuTableView: UITableViewCell {
     
     let nameOfPageLabel = UILabel()
     
+    let imageOfCell = UIImageView()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -31,22 +33,29 @@ class CellForMenuTableView: UITableViewCell {
         nameOfPageLabel.font = UIFont(name: "NunitoSans-Bold", size: 16)
         nameOfPageLabel.textColor = Resources.Colors.blackFontColor
         
+        imageOfCell.translatesAutoresizingMaskIntoConstraints = false
 
     }
     
     private func setupConstraints() {
         addSubview(nameOfPageLabel)
+        addSubview(imageOfCell)
         
         NSLayoutConstraint.activate([
             nameOfPageLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            nameOfPageLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+            nameOfPageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            imageOfCell.centerYAnchor.constraint(equalTo: centerYAnchor),
+            imageOfCell.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10)
         ])
         
     }
     
-    func configureCell(model: String) {
+    func configureCell(title: String, image: String) {
         
-        nameOfPageLabel.text = model
+        nameOfPageLabel.text = title
+        
+        imageOfCell.image = UIImage(named: image)
         
     }
 }

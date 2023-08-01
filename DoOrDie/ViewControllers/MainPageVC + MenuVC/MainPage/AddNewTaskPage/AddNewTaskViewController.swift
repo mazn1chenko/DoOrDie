@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 class AddNewTaskViewController: UIViewController{
-        
+            
     let headerOfViewControllerLabel = UILabel()
     let titleLabel = UILabel()
     let dateLabel = UILabel()
@@ -361,7 +361,7 @@ class AddNewTaskViewController: UIViewController{
         
         addTaskToRealm(title: title, date: date, category: category, team: team, description: description)
         
-        navigationController?.pushViewController(MainPageViewController(), animated: true)
+        navigationController?.pushViewController(MainPageContainerViewController(), animated: true)
         
         
     }

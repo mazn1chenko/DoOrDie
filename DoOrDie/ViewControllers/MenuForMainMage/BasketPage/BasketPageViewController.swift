@@ -20,6 +20,7 @@ class BasketPageViewController: UIViewController {
     }()
     
     var filteredArray = [TaskModel]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
