@@ -8,7 +8,14 @@
 import UIKit
 import RealmSwift
 
+protocol ParticularTasksOfCategoryViewControllerDelegate: AnyObject {
+    
+    func closeVC()
+}
+
 class ParticularTasksOfCategoryViewController: UIViewController {
+    
+    weak var delegate: ParticularTasksOfCategoryViewControllerDelegate?
         
     let tasksTableView = UITableView()
     
@@ -130,11 +137,15 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         
     }
 
-
-    @objc func backBarButtonTapped() {
-
-        navigationController?.popViewController(animated: true)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isMovingFromParent {
+            
+            delegate?.closeVC()
+        }
     }
+
     
 }
 

@@ -29,8 +29,6 @@ class BasketPageViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Resources.Colors.blackFontColor]
 
         
-        
-        
         setupViews()
         setupConstraints()
         filteringArray()
@@ -81,6 +79,12 @@ class BasketPageViewController: UIViewController {
             print("Error fetching tasks: \(error.localizedDescription)")
             return []
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+            deletedTasksTableView.reloadData()
     }
 }
 

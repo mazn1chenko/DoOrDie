@@ -8,7 +8,13 @@
 import UIKit
 import RealmSwift
 
+protocol AddNewTaskDelegate: AnyObject {
+    func didTapButtonAddNewTask()
+}
+
 class AddNewTaskViewController: UIViewController{
+    
+    weak var delegate: AddNewTaskDelegate?
             
     let headerOfViewControllerLabel = UILabel()
     let titleLabel = UILabel()
@@ -361,8 +367,10 @@ class AddNewTaskViewController: UIViewController{
         
         addTaskToRealm(title: title, date: date, category: category, team: team, description: description)
         
-        navigationController?.pushViewController(MainPageContainerViewController(), animated: true)
+        delegate?.didTapButtonAddNewTask()
         
+        navigationController?.popViewController(animated: true)
+
         
     }
     

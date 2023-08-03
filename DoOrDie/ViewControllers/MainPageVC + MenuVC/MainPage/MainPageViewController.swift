@@ -211,8 +211,11 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
             reloadDataOnMainVC()
+            print("reloadDataOnMainVC")
+
+            print(categoriesInfo)
+
     }
     
     
@@ -226,8 +229,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     func getTasksArrayFromRealm() -> [String : Int] {
         do {
             let realm = try Realm()
-            let tasksResults = realm.objects(TaskModel.self) // Получаем все таски из базы данных
-            
+            let tasksResults = realm.objects(TaskModel.self).filter("isDone == false")
+
             // Создаем словарь для хранения информации о категориях и количестве элементов
             var categoryInfo: [String: Int] = [:]
             
@@ -365,4 +368,22 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
 protocol MainPageViewControllerDelegate: AnyObject {
     func didTapMenuButton()
     
+}
+
+extension MainPageViewController: AddNewTaskDelegate {
+    
+    
+    func didTapButtonAddNewTask() {
+        print("AddNewTaskDelegate")
+        tasksCollectionView.reloadData()
+    }
+    
+}
+
+extension MainPageViewController: ParticularTasksOfCategoryViewControllerDelegate {
+    
+    func closeVC() {
+        print("ParticularTasksOfCategoryViewControllerDelegate")
+        tasksCollectionView.reloadData()
+    }
 }
