@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Error initializing Realm: \(error.localizedDescription)")
         }
         return true
+        
     }
 
     // MARK: UISceneSession Lifecycle

@@ -53,6 +53,8 @@ class AddNewTaskViewController: UIViewController{
     
     let datePicker = UIDatePicker()
     
+    let realmStorage = RealmStorageManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -365,7 +367,7 @@ class AddNewTaskViewController: UIViewController{
         let team = teamTextField.text ?? "NoDate"
         let description = descriptionTextField.text ?? "NoDate"
         
-        addTaskToRealm(title: title, date: date, category: category, team: team, description: description)
+        realmStorage.addTaskToRealm(title: title, date: date, category: category, team: team, description: description, isDone: false)
         
         delegate?.didTapButtonAddNewTask()
         
@@ -387,27 +389,7 @@ class AddNewTaskViewController: UIViewController{
     }
     
     //MARK: - Useful functions
-    
-    func addTaskToRealm(title: String, date: String, category: String, team: String, description: String) {
-        do {
-            let realm = try Realm()
-            try realm.write {
-                let newTask = TaskModel()
-                newTask.title = title
-                newTask.date = date
-                newTask.categories = category
-                newTask.team = team
-                newTask.descriptionTask = description
-                newTask.isDone = false
-                
-                realm.add(newTask)
-                
-            }
-        } catch {
-            print("Error adding task: \(error.localizedDescription)")
-        }
-        
-    }
+
     
     private func settingsNavigationBar() {
         let customBarButtonItem = UIBarButtonItem(customView: doneButtonNavigationBar)
@@ -415,7 +397,7 @@ class AddNewTaskViewController: UIViewController{
         
     }
     
-    func setupDatePicker() {
+    private func setupDatePicker() {
         datePicker.datePickerMode = .dateAndTime
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.sizeToFit()

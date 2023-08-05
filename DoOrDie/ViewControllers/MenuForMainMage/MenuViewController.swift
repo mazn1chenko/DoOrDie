@@ -22,6 +22,7 @@ class MenuViewController: UIViewController{
         case mainPage  = "DoOrDie"
         case basket = "Basket"
         case account = "Account"
+        case exit = "Exit"
         
         var image: String {
             
@@ -32,6 +33,8 @@ class MenuViewController: UIViewController{
                 return "basket"
             case .account:
                 return "account"
+            case .exit:
+                return "exit"
             }
         }
         
@@ -44,7 +47,7 @@ class MenuViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = Resources.Colors.blueFont
         
         setupViews()
         setupConstraints()
@@ -56,7 +59,7 @@ class MenuViewController: UIViewController{
         menuTableView.translatesAutoresizingMaskIntoConstraints = false
         menuTableView.delegate = self
         menuTableView.dataSource = self
-        menuTableView.backgroundColor = Resources.Colors.mettingsCollectionViewBackgroundColor
+        menuTableView.backgroundColor = Resources.Colors.blueFont
         menuTableView.register(CellForMenuTableView.self, forCellReuseIdentifier: CellForMenuTableView.reuseID)
         
     }
@@ -98,7 +101,6 @@ extension MenuViewController: UITableViewDataSource {
 
 //MARK: - UITableViewDelegate
 extension MenuViewController: UITableViewDelegate {
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

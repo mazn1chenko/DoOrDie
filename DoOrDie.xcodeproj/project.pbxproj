@@ -30,6 +30,10 @@
 		7138077C2A66D3F3007B03B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7138077B2A66D3F3007B03B8 /* Assets.xcassets */; };
 		7138077F2A66D3F3007B03B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7138077D2A66D3F3007B03B8 /* LaunchScreen.storyboard */; };
 		715EC35A2A792CE100E02306 /* AccountPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715EC3592A792CE100E02306 /* AccountPageViewController.swift */; };
+		715F9E572A7E6B790015B0D3 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715F9E562A7E6B790015B0D3 /* LogInViewController.swift */; };
+		715F9E5A2A7E7F140015B0D3 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715F9E592A7E7F140015B0D3 /* UserDefaultsManager.swift */; };
+		715F9E5C2A7E8C720015B0D3 /* InfoUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715F9E5B2A7E8C720015B0D3 /* InfoUserModel.swift */; };
+		715F9E5E2A7E99520015B0D3 /* RealmStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715F9E5D2A7E99520015B0D3 /* RealmStorageManager.swift */; };
 		719489402A6B221800B88036 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7194893F2A6B221800B88036 /* CalendarViewController.swift */; };
 		71A6FDCE2A7123190085C5AE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A6FDCD2A7123190085C5AE /* MenuViewController.swift */; };
 		71A6FDD02A7128FA0085C5AE /* CellForMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A6FDCF2A7128FA0085C5AE /* CellForMenuTableView.swift */; };
@@ -70,6 +74,10 @@
 		7138077E2A66D3F3007B03B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		713807802A66D3F3007B03B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		715EC3592A792CE100E02306 /* AccountPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageViewController.swift; sourceTree = "<group>"; };
+		715F9E562A7E6B790015B0D3 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		715F9E592A7E7F140015B0D3 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		715F9E5B2A7E8C720015B0D3 /* InfoUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoUserModel.swift; sourceTree = "<group>"; };
+		715F9E5D2A7E99520015B0D3 /* RealmStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStorageManager.swift; sourceTree = "<group>"; };
 		7194893F2A6B221800B88036 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		71A6FDCD2A7123190085C5AE /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		71A6FDCF2A7128FA0085C5AE /* CellForMenuTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForMenuTableView.swift; sourceTree = "<group>"; };
@@ -151,6 +159,7 @@
 		713807712A66D3F1007B03B8 /* DoOrDie */ = {
 			isa = PBXGroup;
 			children = (
+				715F9E582A7E7EF90015B0D3 /* Storage */,
 				71B7ACE42A6D43FE00AB2588 /* Model */,
 				71E772542A696EE60058068A /* Resources */,
 				713807872A66D70C007B03B8 /* Application */,
@@ -186,6 +195,15 @@
 				715EC3592A792CE100E02306 /* AccountPageViewController.swift */,
 			);
 			path = AccountPage;
+			sourceTree = "<group>";
+		};
+		715F9E582A7E7EF90015B0D3 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				715F9E592A7E7F140015B0D3 /* UserDefaultsManager.swift */,
+				715F9E5D2A7E99520015B0D3 /* RealmStorageManager.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		7194893D2A6B21D800B88036 /* AddNewTaskPage */ = {
@@ -229,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				71B7ACE52A6D441500AB2588 /* TaskModel.swift */,
+				715F9E5B2A7E8C720015B0D3 /* InfoUserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -247,6 +266,7 @@
 			children = (
 				71ED0AAC2A77E6880028B4CF /* MainPageVC + MenuVC */,
 				71A6FDD12A7140850085C5AE /* MenuForMainMage */,
+				715F9E562A7E6B790015B0D3 /* LogInViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -421,21 +441,25 @@
 			files = (
 				71A6FDD02A7128FA0085C5AE /* CellForMenuTableView.swift in Sources */,
 				71ED0AAB2A77E6800028B4CF /* MainPageContainerViewController.swift in Sources */,
+				715F9E5C2A7E8C720015B0D3 /* InfoUserModel.swift in Sources */,
 				719489402A6B221800B88036 /* CalendarViewController.swift in Sources */,
 				713807772A66D3F1007B03B8 /* MainPageViewController.swift in Sources */,
 				71E772532A6959440058068A /* TasksCollectionViewCell.swift in Sources */,
 				715EC35A2A792CE100E02306 /* AccountPageViewController.swift in Sources */,
+				715F9E5A2A7E7F140015B0D3 /* UserDefaultsManager.swift in Sources */,
 				71B7ACE32A6D430F00AB2588 /* ParticularTasksOfCategoryVIewController.swift in Sources */,
 				71B7ACE62A6D441500AB2588 /* TaskModel.swift in Sources */,
 				71A6FDCE2A7123190085C5AE /* MenuViewController.swift in Sources */,
 				71A6FDD42A714F4F0085C5AE /* BasketPageViewController.swift in Sources */,
 				713807732A66D3F1007B03B8 /* AppDelegate.swift in Sources */,
+				715F9E5E2A7E99520015B0D3 /* RealmStorageManager.swift in Sources */,
 				71E772562A696EFD0058068A /* Resources.swift in Sources */,
 				712611EB2A6B2F6400EACFF9 /* CustomCalendar.swift in Sources */,
 				71E7725A2A699E650058068A /* AddNewTaskViewController.swift in Sources */,
 				71E772582A698B020058068A /* MeetingsCollectionViewCell.swift in Sources */,
 				71B7ACE92A6D4A2B00AB2588 /* ParticularTableViewCell.swift in Sources */,
 				71A6FDD62A7153F20085C5AE /* DeletedTasksCell.swift in Sources */,
+				715F9E572A7E6B790015B0D3 /* LogInViewController.swift in Sources */,
 				713807752A66D3F1007B03B8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

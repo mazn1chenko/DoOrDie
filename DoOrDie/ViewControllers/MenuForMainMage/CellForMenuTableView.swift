@@ -18,7 +18,7 @@ class CellForMenuTableView: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = Resources.Colors.tasksCollectionCellColor
+        backgroundColor = Resources.Colors.blueFont
         setupViews()
         setupConstraints()
     }
@@ -31,10 +31,11 @@ class CellForMenuTableView: UITableViewCell {
         nameOfPageLabel.translatesAutoresizingMaskIntoConstraints = false
         nameOfPageLabel.text = "NoData"
         nameOfPageLabel.font = UIFont(name: "NunitoSans-Bold", size: 16)
-        nameOfPageLabel.textColor = Resources.Colors.blackFontColor
+        //nameOfPageLabel.textColor = Resources.Colors.blackFontColor
+        nameOfPageLabel.textColor = .black
         
         imageOfCell.translatesAutoresizingMaskIntoConstraints = false
-
+        imageOfCell.tintColor = .black
     }
     
     private func setupConstraints() {
@@ -46,7 +47,9 @@ class CellForMenuTableView: UITableViewCell {
             nameOfPageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             imageOfCell.centerYAnchor.constraint(equalTo: centerYAnchor),
-            imageOfCell.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10)
+            imageOfCell.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            imageOfCell.heightAnchor.constraint(equalToConstant: 25),
+            imageOfCell.widthAnchor.constraint(equalToConstant: 25)
         ])
         
     }
@@ -56,6 +59,6 @@ class CellForMenuTableView: UITableViewCell {
         nameOfPageLabel.text = title
         
         imageOfCell.image = UIImage(named: image)
-        
+        imageOfCell.tintColor = .white
     }
 }

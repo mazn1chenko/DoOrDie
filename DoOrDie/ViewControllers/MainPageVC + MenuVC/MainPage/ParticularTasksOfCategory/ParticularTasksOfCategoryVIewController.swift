@@ -25,6 +25,7 @@ class ParticularTasksOfCategoryViewController: UIViewController {
     
     var filteredArray = [TaskModel]()
     
+    var realmManager = RealmStorageManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,48 +93,16 @@ class ParticularTasksOfCategoryViewController: UIViewController {
         let taskToDelete = filteredArray[indexPath.row]
 
         
-        addTaskToRealm(title: taskToDelete.title, date: taskToDelete.date, category: taskToDelete.categories, team: taskToDelete.team, description: taskToDelete.descriptionTask)
+        realmManager.addTaskToRealm(title: taskToDelete.title, date: taskToDelete.date, category: taskToDelete.categories, team: taskToDelete.team, description: taskToDelete.descriptionTask, isDone: true)
+        
 
-        deleteTaskFromRealm(taskToDelete)
+        realmManager.deleteTaskFromRealm(taskToDelete)
         
         filteredArray.remove(at: indexPath.row)
         
         tasksTableView.deleteRows(at: [indexPath], with: .fade)
         
         
-        
-    }
-        
-    private func deleteTaskFromRealm(_ task: TaskModel) {
-        do {
-            let realm = try Realm()
-            try realm.write {
-                realm.delete(task)
-            }
-
-        } catch {
-            print("Error deleting task: \(error.localizedDescription)")
-        }
-    }
-    
-    private func addTaskToRealm(title: String, date: String, category: String, team: String, description: String) {
-        do {
-            let realm = try Realm()
-            try realm.write {
-                let newTask = TaskModel()
-                newTask.title = title
-                newTask.date = date
-                newTask.categories = category
-                newTask.team = team
-                newTask.descriptionTask = description
-                newTask.isDone = true
-                
-                realm.add(newTask)
-                
-            }
-        } catch {
-            print("Error adding task: \(error.localizedDescription)")
-        }
         
     }
 

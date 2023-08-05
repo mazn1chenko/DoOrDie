@@ -18,7 +18,7 @@ class DeletedTasksCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = Resources.Colors.tasksCollectionCellColor
+        backgroundColor = .white
         
         setupViews()
         setupConstraints()

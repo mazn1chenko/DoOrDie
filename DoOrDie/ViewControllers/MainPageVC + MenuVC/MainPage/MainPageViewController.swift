@@ -15,6 +15,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     let nameUserLabel = UILabel()
     let descriptionLabel = UILabel()
     let meetingsHeaderLabel = UILabel()
+    let emptyTasksCollectionLabel = UILabel()
     
     let menuButtonNavigationBar = UIButton(type: .system)
     let seeCalendarButton = UIButton(type: .system)
@@ -48,6 +49,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     
     var categoriesInfo = [String : Int]()
     
+    let userDefaults: UserDefaultsManagerProtocol = UserDefaultsManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,7 +83,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         stackView.axis = .vertical
         
         nameUserLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameUserLabel.text = "Hi, NoName!"
+        nameUserLabel.text = "Hi, \(userDefaults.string(forKey: .nameOfUser) ?? "Hi, Illia")"
+       //nameUserLabel.text = "Hi, Illia"
         nameUserLabel.font = UIFont(name: "NunitoSans-Bold", size: 28)
         nameUserLabel.textColor = Resources.Colors.blackFontColor
         nameUserLabel.textAlignment = .left
@@ -92,6 +96,12 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         descriptionLabel.textAlignment = .left
         descriptionLabel.contentMode = .top
         descriptionLabel.sizeToFit()
+        
+        emptyTasksCollectionLabel.translatesAutoresizingMaskIntoConstraints = false
+        emptyTasksCollectionLabel.text = "Add some tasks to see them here"
+        emptyTasksCollectionLabel.textColor = Resources.Colors.blackFontColor
+        emptyTasksCollectionLabel.isHidden = true
+        emptyTasksCollectionLabel.sizeToFit()
         
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.applyCommonStyle()
@@ -146,6 +156,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         view.addSubview(meetingsCollectionView)
         view.addSubview(meetingsHeaderLabel)
         view.addSubview(girlImageView)
+        view.addSubview(emptyTasksCollectionLabel)
         stackView.addArrangedSubview(nameUserLabel)
         stackView.addArrangedSubview(descriptionLabel)
         stackView.addArrangedSubview(searchBar)
@@ -202,7 +213,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
             girlImageView.widthAnchor.constraint(equalToConstant: view.frame.width / 4.5),
             
 
-            
+            emptyTasksCollectionLabel.centerXAnchor.constraint(equalTo: tasksCollectionView.centerXAnchor),
+            emptyTasksCollectionLabel.centerYAnchor.constraint(equalTo: tasksCollectionView.centerYAnchor)
             ])
     }
 
@@ -212,14 +224,16 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         super.viewWillAppear(animated)
         
             reloadDataOnMainVC()
-            print("reloadDataOnMainVC")
-
-            print(categoriesInfo)
+            if categoriesInfo.count == 0 {
+                emptyTasksCollectionLabel.isHidden = false
+            }else{
+                emptyTasksCollectionLabel.isHidden = true
+            }
 
     }
     
     
-    func reloadDataOnMainVC() {
+    private func reloadDataOnMainVC() {
         categoriesInfo = getTasksArrayFromRealm()
         tasksCollectionView.reloadData()
     }

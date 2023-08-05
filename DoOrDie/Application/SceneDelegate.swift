@@ -18,10 +18,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
                 
-        window.rootViewController = MainPageContainerViewController()
+       checkForUserLogin()
         
-        window.makeKeyAndVisible()
-        self.window = window
+        func checkForUserLogin() {
+            
+            let userDefaults: UserDefaultsManagerProtocol = UserDefaultsManager()
+
+            if (userDefaults.string(forKey: .nameOfUser)) != nil {
+                showMainAppScreen()
+            } else {
+                showRegistrationScreen()
+            }
+        }
+
+        func showMainAppScreen() {
+            window.rootViewController = MainPageContainerViewController()
+            window.makeKeyAndVisible()
+            self.window = window
+        }
+        
+
+        func showRegistrationScreen() {
+            window.rootViewController = LogInViewController()
+            window.makeKeyAndVisible()
+            self.window = window
+        }
         
     }
 
