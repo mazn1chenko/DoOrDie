@@ -8,6 +8,12 @@
 import UIKit
 import RealmSwift
 
+
+
+protocol MainPageViewControllerDelegate: AnyObject {
+    func didTapMenuButton()
+}
+
 class MainPageViewController: UIViewController, UISearchBarDelegate {
     
     weak var delegate: MainPageViewControllerDelegate?
@@ -56,6 +62,8 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
 
         view.backgroundColor = .white
         
+        title = "DoOrDie"
+        
         setupNavigationBar()
         setupViews()
         setupConstraints()
@@ -83,8 +91,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         stackView.axis = .vertical
         
         nameUserLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameUserLabel.text = "Hi, \(userDefaults.string(forKey: .nameOfUser) ?? "Hi, Illia")"
-       //nameUserLabel.text = "Hi, Illia"
+        nameUserLabel.text = "Hi, \(userDefaults.string(forKey: .nameOfUser) ?? "Hi, NoName")"
         nameUserLabel.font = UIFont(name: "NunitoSans-Bold", size: 28)
         nameUserLabel.textColor = Resources.Colors.blackFontColor
         nameUserLabel.textAlignment = .left
@@ -223,6 +230,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+            nameUserLabel.text = "Hi, \(userDefaults.string(forKey: .nameOfUser) ?? "Hi, NoName")"
             reloadDataOnMainVC()
             if categoriesInfo.count == 0 {
                 emptyTasksCollectionLabel.isHidden = false
@@ -379,16 +387,11 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-protocol MainPageViewControllerDelegate: AnyObject {
-    func didTapMenuButton()
-    
-}
 
 extension MainPageViewController: AddNewTaskDelegate {
     
     
     func didTapButtonAddNewTask() {
-        print("AddNewTaskDelegate")
         tasksCollectionView.reloadData()
     }
     
@@ -397,7 +400,6 @@ extension MainPageViewController: AddNewTaskDelegate {
 extension MainPageViewController: ParticularTasksOfCategoryViewControllerDelegate {
     
     func closeVC() {
-        print("ParticularTasksOfCategoryViewControllerDelegate")
         tasksCollectionView.reloadData()
     }
 }

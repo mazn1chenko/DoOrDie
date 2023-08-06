@@ -164,6 +164,7 @@
 				71E772542A696EE60058068A /* Resources */,
 				713807872A66D70C007B03B8 /* Application */,
 				71E772502A6959140058068A /* ViewControllers */,
+				715F9E562A7E6B790015B0D3 /* LogInViewController.swift */,
 				713807862A66D6E1007B03B8 /* SupportingFiles */,
 			);
 			path = DoOrDie;
@@ -266,7 +267,6 @@
 			children = (
 				71ED0AAC2A77E6880028B4CF /* MainPageVC + MenuVC */,
 				71A6FDD12A7140850085C5AE /* MenuForMainMage */,
-				715F9E562A7E6B790015B0D3 /* LogInViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

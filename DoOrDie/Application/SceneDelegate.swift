@@ -32,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         func showMainAppScreen() {
+            
             window.rootViewController = MainPageContainerViewController()
             window.makeKeyAndVisible()
             self.window = window
@@ -39,7 +40,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
 
         func showRegistrationScreen() {
-            window.rootViewController = LogInViewController()
+            
+            window.rootViewController = UINavigationController(rootViewController: LogInViewController())
             window.makeKeyAndVisible()
             self.window = window
         }

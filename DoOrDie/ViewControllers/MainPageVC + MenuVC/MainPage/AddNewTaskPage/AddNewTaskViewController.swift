@@ -370,7 +370,7 @@ class AddNewTaskViewController: UIViewController{
         realmStorage.addTaskToRealm(title: title, date: date, category: category, team: team, description: description, isDone: false)
         
         delegate?.didTapButtonAddNewTask()
-        
+
         navigationController?.popViewController(animated: true)
 
         

@@ -31,6 +31,8 @@ class MainPageContainerViewController: UIViewController {
     
     var navVC: UINavigationController?
     
+    let userDefaults = UserDefaultsManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,7 +52,17 @@ class MainPageContainerViewController: UIViewController {
         addChild(navVC)
         view.addSubview(navVC.view)
         navVC.didMove(toParent: self)
+        navVC.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         self.navVC = navVC
+        
+        loginVC.delegate = self
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reloadInputViews()
 
     }
 }
@@ -114,7 +126,7 @@ extension MainPageContainerViewController: MenuViewControllerDelegate {
             accountVC.view.removeFromSuperview()
             basketVC.didMove(toParent: nil)
             accountVC.didMove(toParent: nil)
-            mainPageVC.title = "MainPage"
+            mainPageVC.title = "DoOrDie"
         
     }
     
@@ -142,25 +154,43 @@ extension MainPageContainerViewController: MenuViewControllerDelegate {
     
     private func exitFromAccount() {
         
-        let alert = UIAlertController(title: "You wanna exit?", message: "Exit from account", preferredStyle: .alert)
+        let alert = UIAlertController(title: "You wanna exit?", message: "All your personal data will be deleted", preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [self] _ in
             
             let vc = self.loginVC
             
-            self.mainPageVC.view.addSubview(vc.view)
+            self.view.addSubview(vc.view)
             self.mainPageVC.view.frame = self.view.frame
             vc.didMove(toParent: self.mainPageVC)
-            self.mainPageVC.title = vc.title
 
-            
+            userDefaults.remove(forKey: UserDefaultsManager.Keys(rawValue: userDefaults.string(forKey: .nameOfUser)!) ?? .nameOfUser)
+
         }))
         
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in
             
         }))
 
-        self.present(alert, animated: true, completion: nil)    }
+        self.present(alert, animated: true, completion: nil)
+        
+        
+    }
     
 
+}
+
+extension MainPageContainerViewController: LogInViewControllerDelegate {
+    
+    func tapTheLoginButton() {
+        loginVC.view.removeFromSuperview()
+        basketVC.view.removeFromSuperview()
+        accountVC.view.removeFromSuperview()
+        basketVC.didMove(toParent: nil)
+        accountVC.didMove(toParent: nil)
+        loginVC.didMove(toParent: nil)
+        mainPageVC.nameUserLabel.text = "Hi, \(userDefaults.string(forKey: .nameOfUser) ?? "Hi, NoName")"
+        loginVC.navigationController?.pushViewController(MainPageContainerViewController(), animated: true)
+        
+    }
 }
