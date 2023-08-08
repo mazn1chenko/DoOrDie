@@ -29,6 +29,7 @@ final class UserDefaultsManager {
     public enum Keys: String {
         
         case nameOfUser
+        case emailOfUser
         case passwordUser
         
     }

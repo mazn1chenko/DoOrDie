@@ -16,6 +16,7 @@ enum Sex {
 struct InfoUserModel {
     
     var name: String
+    var email: String
     var password: String
     
 }

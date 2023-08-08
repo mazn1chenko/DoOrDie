@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let userDefaults: UserDefaultsManagerProtocol = UserDefaultsManager()
 
-            if (userDefaults.string(forKey: .nameOfUser)) != nil {
+            if (userDefaults.string(forKey: .nameOfUser)) != nil && (userDefaults.string(forKey: .emailOfUser)) != nil {
                 showMainAppScreen()
             } else {
                 showRegistrationScreen()

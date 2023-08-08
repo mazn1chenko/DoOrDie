@@ -20,7 +20,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     private let registrationLabel = UILabel()
 
-    private let loginTextField = UITextField()
+    private let nameTextField = UITextField()
+    private let emailTextField = UITextField()
     private let passwordTextField = UITextField()
     
     private let confirmButton = UIButton(type: .system)
@@ -46,12 +47,19 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         registrationLabel.font = UIFont(name: "NunitoSans-Bold", size: 22)
         registrationLabel.sizeToFit()
         
-        loginTextField.translatesAutoresizingMaskIntoConstraints = false
-        loginTextField.delegate = self
-        loginTextField.textColor = .black
-        loginTextField.backgroundColor = .white
-        loginTextField.attributedPlaceholder = NSAttributedString(string: "Enter your name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
-        loginTextField.layer.cornerRadius = 10
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        nameTextField.delegate = self
+        nameTextField.textColor = .black
+        nameTextField.backgroundColor = .white
+        nameTextField.attributedPlaceholder = NSAttributedString(string: "Enter your name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        nameTextField.layer.cornerRadius = 10
+        
+        emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        emailTextField.delegate = self
+        emailTextField.textColor = .black
+        emailTextField.backgroundColor = .white
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "Enter your email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        emailTextField.layer.cornerRadius = 10
 
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.delegate = self
@@ -71,29 +79,35 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setupConstraints() {
-        view.addSubview(loginTextField)
+        view.addSubview(emailTextField)
+        view.addSubview(nameTextField)
         view.addSubview(passwordTextField)
         view.addSubview(confirmButton)
         view.addSubview(registrationLabel)
         
         NSLayoutConstraint.activate([
                     
+            emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emailTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emailTextField.heightAnchor.constraint(equalToConstant: 30),
+            emailTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2),
+            
+            nameTextField.bottomAnchor.constraint(equalTo: emailTextField.topAnchor, constant: -30),
+            nameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nameTextField.heightAnchor.constraint(equalToConstant: 30),
+            nameTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2),
+
             passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwordTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
             passwordTextField.heightAnchor.constraint(equalToConstant: 30),
             passwordTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2),
-            
-            loginTextField.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -30),
-            loginTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loginTextField.heightAnchor.constraint(equalToConstant: 30),
-            loginTextField.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2),
 
             confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             confirmButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
             confirmButton.heightAnchor.constraint(equalToConstant: 60),
             confirmButton.widthAnchor.constraint(equalToConstant: 150),
             
-            registrationLabel.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -50),
+            registrationLabel.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -50),
             registrationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
 
         ])
@@ -124,11 +138,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     @objc func gettingDateFromTextField() {
         
-        if let loginText = loginTextField.text, let passwordText = passwordTextField.text {
+        if let loginText = nameTextField.text, let passwordText = passwordTextField.text, let emailText = emailTextField.text {
             
-            let infoUserModel = InfoUserModel(name: loginText, password: passwordText)
+            let infoUserModel = InfoUserModel(name: loginText, email: emailText, password: passwordText)
             
             userDefaults.set(infoUserModel.name, forKey: .nameOfUser)
+            userDefaults.set(infoUserModel.email, forKey: .emailOfUser)
             userDefaults.set(infoUserModel.password, forKey: .passwordUser)
             
             navigationController?.pushViewController(MainPageContainerViewController(), animated: true)
