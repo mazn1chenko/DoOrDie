@@ -11,6 +11,7 @@ import RealmSwift
 
 
 protocol MainPageViewControllerDelegate: AnyObject {
+//    func reloadMainCollection()
     func didTapMenuButton()
 }
 

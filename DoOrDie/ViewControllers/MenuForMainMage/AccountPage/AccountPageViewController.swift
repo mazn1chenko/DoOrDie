@@ -129,8 +129,8 @@ class AccountPageViewController: UIViewController {
             
             edittingButtonsStackView.topAnchor.constraint(equalTo: photoOfUserImageView.topAnchor),
             edittingButtonsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            edittingButtonsStackView.widthAnchor.constraint(equalToConstant: view.frame.height / 18),
-            edittingButtonsStackView.heightAnchor.constraint(equalToConstant: view.frame.height / 18),
+            edittingButtonsStackView.widthAnchor.constraint(equalToConstant: view.frame.height / 19),
+            edittingButtonsStackView.heightAnchor.constraint(equalToConstant: view.frame.height / 19),
             
             upgradePremiumButton.topAnchor.constraint(equalTo: changePhotoOfUserButton.bottomAnchor, constant: 5),
             upgradePremiumButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
@@ -149,7 +149,13 @@ class AccountPageViewController: UIViewController {
     
     @objc func tapFreeAccount() {
         
-        print("tapFreeAccount")
+        let alertController = UIAlertController(title: "Warning!", message: "Free account - basic functionality, but in future can buy premium and gets something special", preferredStyle: .alert)
+
+        let alertAction = UIAlertAction(title: "Okey!", style: .cancel)
+        
+        alertController.addAction(alertAction)
+        
+        self.present(alertController, animated: true)
         
     }
     
@@ -165,7 +171,14 @@ class AccountPageViewController: UIViewController {
     }
     @objc func upgradePremium() {
         
-        print("upgradePremium")
+        
+        let alertController = UIAlertController(title: "Warning!", message: "This function in beta!", preferredStyle: .alert)
+
+        let alertAction = UIAlertAction(title: "Okey!", style: .cancel)
+        
+        alertController.addAction(alertAction)
+        
+        self.present(alertController, animated: true)
         
     }
 }

@@ -46,6 +46,15 @@ class RealmStorageManager {
         }
     }
     
-    
+    func cleanAllData() {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.deleteAll()
+            }
+        } catch {
+            print("Error deleting task: \(error.localizedDescription)")
+        }
+    }
     
 }

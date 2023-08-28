@@ -149,10 +149,32 @@ extension ParticularTasksOfCategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ParticularTableViewCell.reuseID, for: indexPath) as! ParticularTableViewCell
-        cell.backgroundColor = Resources.Colors.tasksCollectionCellColor
         
         cell.configureCell(model: filteredArray[indexPath.row])
+        
+        cell.doneTaskButton.addTarget(self, action: #selector(completeTask(index:)), for: .touchUpInside)
+
+        
         return cell
+        
+    }
+    
+    @objc func completeTask(index: IndexPath) {
+        
+        let taskToDelete = filteredArray[index.row]
+
+        
+        realmManager.addTaskToRealm(title: taskToDelete.title, date: taskToDelete.date, category: taskToDelete.categories, team: taskToDelete.team, description: taskToDelete.descriptionTask, isDone: true)
+        
+
+        realmManager.deleteTaskFromRealm(taskToDelete)
+        
+        filteredArray.remove(at: index.row)
+        
+        tasksTableView.deleteRows(at: [index], with: .fade)
+        
+        
+        
         
     }
 }

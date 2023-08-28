@@ -68,6 +68,8 @@ class MainPageContainerViewController: UIViewController {
 }
 
 extension MainPageContainerViewController: MainPageViewControllerDelegate{
+
+    
     func didTapMenuButton() {
         toggleMenu(completion: nil)
     }
@@ -174,6 +176,7 @@ extension MainPageContainerViewController: MenuViewControllerDelegate {
 
         self.present(alert, animated: true, completion: nil)
         
+        RealmStorageManager.shared.cleanAllData()
         
     }
     

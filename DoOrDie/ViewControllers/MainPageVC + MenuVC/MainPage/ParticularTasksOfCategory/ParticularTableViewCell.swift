@@ -22,7 +22,8 @@ class ParticularTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         
-        backgroundColor = .red
+            // backgroundColor = Resources.Colors.tasksCollectionCellColor
+
         setupViews()
         setupConstraints()
     }
@@ -47,24 +48,26 @@ class ParticularTableViewCell: UITableViewCell {
         doneTaskButton.translatesAutoresizingMaskIntoConstraints = false
         doneTaskButton.setImage(UIImage(named: "done"), for: .normal)
         doneTaskButton.tintColor = Resources.Colors.blackFontColor
+//        doneTaskButton.layer.zPosition = 1
         
         editTaskButton.translatesAutoresizingMaskIntoConstraints = false
         editTaskButton.setImage(UIImage(named: "editButton"), for: .normal)
         editTaskButton.tintColor = Resources.Colors.blackFontColor
-        
+//        editTaskButton.addTarget(self, action: #selector(edit), for: .touchUpInside)
+
         
     }
     
     private func setupConstraints() {
-        addSubview(titleOfTask)
-        addSubview(descriptionOfTask)
-        addSubview(doneTaskButton)
-        addSubview(editTaskButton)
+        contentView.addSubview(titleOfTask)
+        contentView.addSubview(descriptionOfTask)
+        contentView.addSubview(doneTaskButton)
+        contentView.addSubview(editTaskButton)
         
         NSLayoutConstraint.activate([
             titleOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             titleOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20),
-            titleOfTask.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25),
+            titleOfTask.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35),
             
             descriptionOfTask.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             descriptionOfTask.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 20),
@@ -73,6 +76,7 @@ class ParticularTableViewCell: UITableViewCell {
             doneTaskButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             doneTaskButton.topAnchor.constraint(equalTo: titleOfTask.topAnchor, constant: 5),
             doneTaskButton.bottomAnchor.constraint(equalTo: titleOfTask.bottomAnchor, constant: -5),
+            doneTaskButton.widthAnchor.constraint(equalToConstant: 30),
             
             editTaskButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             editTaskButton.topAnchor.constraint(equalTo: descriptionOfTask.topAnchor, constant: 5),
